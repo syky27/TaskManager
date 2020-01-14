@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		35223E1723CDE71900808F50 /* CategoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35223E1623CDE71900808F50 /* CategoryTableViewController.swift */; };
+		35223E1723CDE71900808F50 /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35223E1623CDE71900808F50 /* CategoryView.swift */; };
 		35223E1923CDE75000808F50 /* CategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35223E1823CDE75000808F50 /* CategoryViewModel.swift */; };
+		35223E2023CE22F500808F50 /* CategoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35223E1F23CE22F500808F50 /* CategoryService.swift */; };
 		356E773623AFCCEE00222A29 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356E773523AFCCEE00222A29 /* AppDelegate.swift */; };
 		356E773823AFCCEE00222A29 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356E773723AFCCEE00222A29 /* SceneDelegate.swift */; };
 		356E773A23AFCCEE00222A29 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356E773923AFCCEE00222A29 /* ViewController.swift */; };
@@ -23,8 +24,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		35223E1623CDE71900808F50 /* CategoryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewController.swift; sourceTree = "<group>"; };
+		35223E1623CDE71900808F50 /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
 		35223E1823CDE75000808F50 /* CategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewModel.swift; sourceTree = "<group>"; };
+		35223E1F23CE22F500808F50 /* CategoryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryService.swift; sourceTree = "<group>"; };
 		356E773223AFCCEE00222A29 /* TaskManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TaskManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		356E773523AFCCEE00222A29 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		356E773723AFCCEE00222A29 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -51,20 +53,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		35223E1423CDE6D500808F50 /* ViewModel */ = {
+		35223E1D23CE22C300808F50 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				35223E1F23CE22F500808F50 /* CategoryService.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		35223E2123CE3C1500808F50 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
 				35223E1823CDE75000808F50 /* CategoryViewModel.swift */,
+				35223E1623CDE71900808F50 /* CategoryView.swift */,
 			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		35223E1523CDE6EB00808F50 /* ViewController */ = {
-			isa = PBXGroup;
-			children = (
-				35223E1623CDE71900808F50 /* CategoryTableViewController.swift */,
-			);
-			path = ViewController;
+			path = Categories;
 			sourceTree = "<group>";
 		};
 		356E772923AFCCEE00222A29 = {
@@ -86,8 +89,8 @@
 		356E773423AFCCEE00222A29 /* TaskManager */ = {
 			isa = PBXGroup;
 			children = (
-				35223E1523CDE6EB00808F50 /* ViewController */,
-				35223E1423CDE6D500808F50 /* ViewModel */,
+				35223E2123CE3C1500808F50 /* Categories */,
+				35223E1D23CE22C300808F50 /* Data */,
 				356E776023AFE42900222A29 /* Database */,
 				356E775623AFDAC600222A29 /* Model */,
 				356E773523AFCCEE00222A29 /* AppDelegate.swift */,
@@ -215,12 +218,13 @@
 				356E773A23AFCCEE00222A29 /* ViewController.swift in Sources */,
 				356E775D23AFDD8800222A29 /* DBCategory+CoreDataClass.swift in Sources */,
 				356E773623AFCCEE00222A29 /* AppDelegate.swift in Sources */,
+				35223E2023CE22F500808F50 /* CategoryService.swift in Sources */,
 				35223E1923CDE75000808F50 /* CategoryViewModel.swift in Sources */,
 				356E774023AFCCEE00222A29 /* TaskManager.xcdatamodeld in Sources */,
 				356E774D23AFD8AF00222A29 /* CoreDataManager.swift in Sources */,
 				356E775C23AFDD8800222A29 /* DBTask+CoreDataProperties.swift in Sources */,
 				356E775E23AFDD8800222A29 /* DBCategory+CoreDataProperties.swift in Sources */,
-				35223E1723CDE71900808F50 /* CategoryTableViewController.swift in Sources */,
+				35223E1723CDE71900808F50 /* CategoryView.swift in Sources */,
 				356E775B23AFDD8800222A29 /* DBTask+CoreDataClass.swift in Sources */,
 				356E773823AFCCEE00222A29 /* SceneDelegate.swift in Sources */,
 			);

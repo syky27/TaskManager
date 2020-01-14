@@ -13,4 +13,7 @@ import CoreData
 @objc(DBCategory)
 public class DBCategory: NSManagedObject {
 
+    func category() -> Category {
+        return Category(name: name ?? "")
+    }
 }

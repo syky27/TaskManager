@@ -19,7 +19,7 @@ class ViewController: UIViewController {
 
         let category = DBCategory(context: CoreDataManager.shared.context)
         category.name = "Test"
-        CoreDataManager.shared.saveContext()
+//        CoreDataManager.shared.saveContext()
 
         let request: NSFetchRequest<DBCategory> = DBCategory.fetchRequest()
         let sort = NSSortDescriptor(key: #keyPath(DBCategory.name),
