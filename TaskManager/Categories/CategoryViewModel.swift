@@ -31,16 +31,4 @@ class CategoryViewModel {
             }
         }
     }
-
-    func saveCategory(category: Category) {
-        categoryService.save(category: category) { [weak self] result in
-            switch result {
-            case .failure(let error):
-                print(error)
-            case .success:
-                self?.fetchCategories()
-            }
-
-        }
-    }
 }

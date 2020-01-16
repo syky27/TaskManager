@@ -15,19 +15,16 @@ struct Category {
 
 protocol CategoryServiceProtocol {
     func getAll(completion: @escaping (Result<[Category], Error>) -> Void)
-    func save(category: Category, completion: @escaping (Result<Void, Error>) -> Void)
+    func save(category: Category) throws
 }
 
 class CategoryService: CategoryServiceProtocol {
-    func save(category: Category, completion: @escaping (Result<Void, Error>) -> Void) {
+    func save(category: Category) throws {
         let managedObject = DBCategory(context: CoreDataManager.shared.context)
         managedObject.name = category.name
-        do {
-            try CoreDataManager.shared.saveContext()
-            completion(.success(()))
-        } catch let error {
-            completion(.failure(error))
-        }
+
+        try CoreDataManager.shared.saveContext()
+
     }
 
     func getAll(completion: @escaping (Result<[Category], Error>) -> Void) {

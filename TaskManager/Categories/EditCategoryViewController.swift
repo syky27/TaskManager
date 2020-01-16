@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Combine
 
 class EditCategoryViewController: UIViewController {
 
@@ -17,9 +18,11 @@ class EditCategoryViewController: UIViewController {
         return textField
     }()
 
+    private var textFieldSubscriber: AnyCancellable?
+
     override var title: String? {
         get {
-            viewModel.name == "" ? "New Category" : "Editing \(viewModel.name)"
+            viewModel.name.value == "" ? "New Category" : "Editing \(viewModel.name)"
         }
         set {
             super.title = newValue
@@ -41,7 +44,7 @@ class EditCategoryViewController: UIViewController {
         super.viewDidLoad()
         layout()
         setButtons()
-        setup()
+        bindToViewModel()
     }
 
     private func layout() {
@@ -66,21 +69,16 @@ class EditCategoryViewController: UIViewController {
     }
 
     @objc private func saveAction() {
-        // TODO: Combine Validation
-        viewModel.saveNew(category: Category(name: textField.text ?? "")) { result in
-            switch result {
-            case .success():
-                self.dismiss(animated: true, completion: nil)
-            case .failure(let error):
-                print(error)
-                // TODO: Notify User
-            }
-        }
-
-
+        viewModel.action.send(.save)
     }
 
-    private func setup() {
-        textField.text = viewModel.name
+    private func bindToViewModel() {
+        textFieldSubscriber = viewModel.name.assign(to: \.text, on: textField)
+
+        viewModel.didFinishEditing = { [weak self] in
+            DispatchQueue.main.async {
+                self?.dismiss(animated: true, completion: nil)
+            }
+        }
     }
 }
