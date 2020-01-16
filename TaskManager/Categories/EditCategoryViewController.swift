@@ -66,9 +66,18 @@ class EditCategoryViewController: UIViewController {
     }
 
     @objc private func saveAction() {
-        //TODO: save model ...
+        // TODO: Combine Validation
+        viewModel.saveNew(category: Category(name: textField.text ?? "")) { result in
+            switch result {
+            case .success():
+                self.dismiss(animated: true, completion: nil)
+            case .failure(let error):
+                print(error)
+                // TODO: Notify User
+            }
+        }
 
-        self.dismiss(animated: true, completion: nil)
+
     }
 
     private func setup() {

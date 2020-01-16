@@ -12,11 +12,17 @@ class EditCategoryViewModel {
 
     private let category: Category?
 
+    private let service = CategoryService()
+
     var name: String {
         category?.name ?? ""
     }
 
     init(category: Category? = nil) {
         self.category = category
+    }
+
+    func saveNew(category: Category, completion: @escaping (Result<Void, Error>) -> Void) {
+        service.save(category: category, completion: completion)
     }
 }

@@ -20,10 +20,9 @@ class CategoryView: UIViewController {
         return tableView
     }()
 
-    // TODO: Combine
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
-        tableView.reloadData()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        categoryViewModel.fetchCategories()
     }
 
     override func viewDidLoad() {
@@ -31,10 +30,17 @@ class CategoryView: UIViewController {
         view = tableView
         categoryViewModel.fetchCategories()
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(add))
+        bind()
     }
 
     @objc func add() {
-        navigationController?.present(UINavigationController(rootViewController: EditCategoryViewController(viewModel: EditCategoryViewModel())), animated: true, completion: nil)
+        // iOS 13 presentation work around, to get back to old behaviour
+        // presentationControllerDidDismiss(_ presentationController: UIPresentationController)
+        // does not get called when the VC gets dissmissed, only when it is dragged down...
+        // see UIAdaptivePresentationControllerDelegate
+        let editViewController = UINavigationController(rootViewController: EditCategoryViewController(viewModel: EditCategoryViewModel()))
+        editViewController.modalPresentationStyle = .fullScreen
+        navigationController?.present(editViewController, animated: true, completion: nil)
 
     }
 
@@ -57,7 +63,6 @@ extension CategoryView: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseID, for: indexPath) as? CategoryTableViewCell ?? CategoryTableViewCell(style: .default, reuseIdentifier: reuseID)
 
         cell.viewModel = CategoryCellViewModel(category: categoryViewModel.categories[indexPath.row])
-
         return cell
     }
 }
