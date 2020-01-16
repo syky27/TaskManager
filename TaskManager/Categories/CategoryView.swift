@@ -20,6 +20,12 @@ class CategoryView: UIViewController {
         return tableView
     }()
 
+    // TODO: Combine
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        tableView.reloadData()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view = tableView
@@ -28,8 +34,8 @@ class CategoryView: UIViewController {
     }
 
     @objc func add() {
-        categoryViewModel.saveCategory(category: Category(name: Date().description))
-        tableView.reloadData()
+        navigationController?.present(UINavigationController(rootViewController: EditCategoryViewController(viewModel: EditCategoryViewModel())), animated: true, completion: nil)
+
     }
 
     func bind() {

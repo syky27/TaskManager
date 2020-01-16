@@ -12,6 +12,8 @@
 		35223E2023CE22F500808F50 /* CategoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35223E1F23CE22F500808F50 /* CategoryService.swift */; };
 		3523960523D0C0CE009DED42 /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3523960423D0C0CE009DED42 /* CategoryTableViewCell.swift */; };
 		3523960723D0C0EA009DED42 /* CategoryCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3523960623D0C0EA009DED42 /* CategoryCellViewModel.swift */; };
+		3523960923D0C897009DED42 /* EditCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3523960823D0C897009DED42 /* EditCategoryViewController.swift */; };
+		3523960B23D0CA50009DED42 /* EditCategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3523960A23D0CA50009DED42 /* EditCategoryViewModel.swift */; };
 		356E773623AFCCEE00222A29 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356E773523AFCCEE00222A29 /* AppDelegate.swift */; };
 		356E773823AFCCEE00222A29 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356E773723AFCCEE00222A29 /* SceneDelegate.swift */; };
 		356E773A23AFCCEE00222A29 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356E773923AFCCEE00222A29 /* ViewController.swift */; };
@@ -31,6 +33,8 @@
 		35223E1F23CE22F500808F50 /* CategoryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryService.swift; sourceTree = "<group>"; };
 		3523960423D0C0CE009DED42 /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
 		3523960623D0C0EA009DED42 /* CategoryCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCellViewModel.swift; sourceTree = "<group>"; };
+		3523960823D0C897009DED42 /* EditCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCategoryViewController.swift; sourceTree = "<group>"; };
+		3523960A23D0CA50009DED42 /* EditCategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCategoryViewModel.swift; sourceTree = "<group>"; };
 		356E773223AFCCEE00222A29 /* TaskManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TaskManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		356E773523AFCCEE00222A29 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		356E773723AFCCEE00222A29 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -70,6 +74,8 @@
 			children = (
 				35223E1823CDE75000808F50 /* CategoryViewModel.swift */,
 				35223E1623CDE71900808F50 /* CategoryView.swift */,
+				3523960823D0C897009DED42 /* EditCategoryViewController.swift */,
+				3523960A23D0CA50009DED42 /* EditCategoryViewModel.swift */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -229,11 +235,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3523960923D0C897009DED42 /* EditCategoryViewController.swift in Sources */,
 				356E773A23AFCCEE00222A29 /* ViewController.swift in Sources */,
 				356E775D23AFDD8800222A29 /* DBCategory+CoreDataClass.swift in Sources */,
 				356E773623AFCCEE00222A29 /* AppDelegate.swift in Sources */,
 				35223E2023CE22F500808F50 /* CategoryService.swift in Sources */,
 				3523960723D0C0EA009DED42 /* CategoryCellViewModel.swift in Sources */,
+				3523960B23D0CA50009DED42 /* EditCategoryViewModel.swift in Sources */,
 				35223E1923CDE75000808F50 /* CategoryViewModel.swift in Sources */,
 				356E774023AFCCEE00222A29 /* TaskManager.xcdatamodeld in Sources */,
 				356E774D23AFD8AF00222A29 /* CoreDataManager.swift in Sources */,
