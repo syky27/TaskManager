@@ -13,7 +13,7 @@ class EditCategoryViewController: UIViewController {
 
     private let textField: UITextField = {
         let textField = UITextField()
-        // TODO: Move to localize strings
+        textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         textField.placeholder = "Name"
         return textField
     }()
@@ -75,10 +75,15 @@ class EditCategoryViewController: UIViewController {
     private func bindToViewModel() {
         textFieldSubscriber = viewModel.name.assign(to: \.text, on: textField)
 
+
         viewModel.didFinishEditing = { [weak self] in
             DispatchQueue.main.async {
                 self?.dismiss(animated: true, completion: nil)
             }
         }
+    }
+
+    @objc func textFieldDidChange(_ sender: UITextField) {
+        viewModel.name.value = sender.text ?? ""
     }
 }
