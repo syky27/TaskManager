@@ -18,7 +18,14 @@ class EditCategoryViewController: UIViewController {
         return textField
     }()
 
-    private var textFieldSubscriber: AnyCancellable?
+    private let errorLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .red
+        label.font = UIFont.boldSystemFont(ofSize: 14)
+        return label
+    }()
+
+    var cancelables: [AnyCancellable] = []
 
     override var title: String? {
         get {
@@ -57,6 +64,13 @@ class EditCategoryViewController: UIViewController {
         textField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8).isActive = true
         textField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8).isActive = true
         textField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 8).isActive = true
+
+        errorLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(errorLabel)
+
+        errorLabel.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: 8).isActive = true
+        errorLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8).isActive = true
+        errorLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 8).isActive = true
     }
 
     private func setButtons() {
@@ -73,8 +87,11 @@ class EditCategoryViewController: UIViewController {
     }
 
     private func bindToViewModel() {
-        textFieldSubscriber = viewModel.$name.assign(to: \.text, on: textField)
-
+        cancelables = [
+            viewModel.$name.assign(to: \.text, on: textField),
+            viewModel.$errorText.assign(to: \.text, on: errorLabel),
+            viewModel.$errorTextHidden.assign(to: \.isHidden, on: errorLabel)
+        ]
 
         viewModel.didFinishEditing = { [weak self] in
             DispatchQueue.main.async {

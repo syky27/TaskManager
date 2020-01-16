@@ -63,6 +63,7 @@ class EditCategoryViewModel {
         switch action {
         case .save:
             do {
+//                throw NSError(domain: "Err", code: -1, userInfo: ["NSLocalizedDescriptionKey": "Fucked up"])
                 let formCategory = Category(name: name ?? "")
                 category != nil ? try service.updateExisting(category: category!, with: formCategory) :  try service.createNew(category: formCategory)
                 self.didFinishEditing?()

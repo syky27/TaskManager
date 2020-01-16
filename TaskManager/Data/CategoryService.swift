@@ -20,7 +20,7 @@ protocol CategoryServiceProtocol {
 }
 
 class CategoryService: CategoryServiceProtocol {
-    
+
     func updateExisting(category: Category, with newCategory: Category) throws {
         let context = CoreDataManager.shared.context
         let predicate = NSPredicate(format: "name == %@", category.name)
