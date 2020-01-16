@@ -17,6 +17,7 @@ class CategoryView: UIViewController {
         let tableView = UITableView()
         tableView.register(CategoryTableViewCell.self, forCellReuseIdentifier: reuseID)
         tableView.dataSource = self
+        tableView.delegate = self
         return tableView
     }()
 
@@ -50,6 +51,14 @@ class CategoryView: UIViewController {
                 self?.tableView.reloadData()
             }
         }
+    }
+}
+
+extension CategoryView: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let editController = UINavigationController(rootViewController: EditCategoryViewController(viewModel: EditCategoryViewModel(category: categoryViewModel.categories[indexPath.row])))
+        editController.modalPresentationStyle = .fullScreen
+        navigationController?.present(editController, animated: true, completion: nil)
     }
 }
 

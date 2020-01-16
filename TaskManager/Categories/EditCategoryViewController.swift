@@ -22,7 +22,7 @@ class EditCategoryViewController: UIViewController {
 
     override var title: String? {
         get {
-            viewModel.name.value == "" ? "New Category" : "Editing \(viewModel.name)"
+            viewModel.name == "" ? "New Category" : "Editing \(viewModel.name ?? "Category")"
         }
         set {
             super.title = newValue
@@ -73,7 +73,7 @@ class EditCategoryViewController: UIViewController {
     }
 
     private func bindToViewModel() {
-        textFieldSubscriber = viewModel.name.assign(to: \.text, on: textField)
+        textFieldSubscriber = viewModel.$name.assign(to: \.text, on: textField)
 
 
         viewModel.didFinishEditing = { [weak self] in
@@ -84,6 +84,6 @@ class EditCategoryViewController: UIViewController {
     }
 
     @objc func textFieldDidChange(_ sender: UITextField) {
-        viewModel.name.value = sender.text ?? ""
+        viewModel.name = sender.text ?? ""
     }
 }

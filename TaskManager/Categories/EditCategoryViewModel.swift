@@ -20,9 +20,9 @@ class EditCategoryViewModel {
         case error(message: String)
     }
 
-    let name = CurrentValueSubject<String?, Never>(nil)
-    let errorText = CurrentValueSubject<String?, Never>(nil)
-    let errorTextHidden = CurrentValueSubject<Bool, Never>(true)
+    @Published var name: String?
+    @Published var errorText: String?
+    @Published var errorTextHidden: Bool = true
 
     var cancelables: [AnyCancellable] = []
 
@@ -51,11 +51,11 @@ class EditCategoryViewModel {
     func processState(_ state: State) {
         switch state {
         case .initial:
-            name.value = category?.name ?? ""
+            name = category?.name ?? ""
 
         case .error(let message):
-            errorText.value = message
-            errorTextHidden.value = false
+            errorText = message
+            errorTextHidden = false
         }
     }
 
@@ -63,7 +63,7 @@ class EditCategoryViewModel {
         switch action {
         case .save:
             do {
-                try service.save(category: Category(name: name.value ?? ""))
+                try service.save(category: Category(name: name ?? ""))
                 self.didFinishEditing?()
 
             } catch {
