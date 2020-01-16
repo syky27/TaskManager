@@ -15,7 +15,7 @@ class CategoryView: UIViewController {
 
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseID)
+        tableView.register(CategoryTableViewCell.self, forCellReuseIdentifier: reuseID)
         tableView.dataSource = self
         return tableView
     }()
@@ -48,9 +48,10 @@ extension CategoryView: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-       let cell = tableView.dequeueReusableCell(withIdentifier: reuseID, for: indexPath)
-        let category = categoryViewModel.categories[indexPath.row]
-        cell.textLabel?.text = category.name
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseID, for: indexPath) as? CategoryTableViewCell ?? CategoryTableViewCell(style: .default, reuseIdentifier: reuseID)
+
+        cell.viewModel = CategoryCellViewModel(category: categoryViewModel.categories[indexPath.row])
+
         return cell
     }
 }
