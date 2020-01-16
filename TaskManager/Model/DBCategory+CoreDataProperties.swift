@@ -2,8 +2,8 @@
 //  DBCategory+CoreDataProperties.swift
 //  TaskManager
 //
-//  Created by Tomas Sykora, jr. on 22/12/2019.
-//  Copyright © 2019 AJTY. All rights reserved.
+//  Created by Tomas Sykora, jr. on 16/01/2020.
+//  Copyright © 2020 AJTY. All rights reserved.
 //
 //
 
@@ -16,8 +16,8 @@ extension DBCategory {
         return NSFetchRequest<DBCategory>(entityName: "DBCategory")
     }
 
+    @NSManaged public var color: String?
     @NSManaged public var name: String?
-    @NSManaged public var color: NSObject?
     @NSManaged public var tasks: NSSet?
 
 }

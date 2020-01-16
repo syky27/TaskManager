@@ -63,7 +63,8 @@ class EditCategoryViewModel {
         switch action {
         case .save:
             do {
-                try service.save(category: Category(name: name ?? ""))
+                let formCategory = Category(name: name ?? "")
+                category != nil ? try service.updateExisting(category: category!, with: formCategory) :  try service.createNew(category: formCategory)
                 self.didFinishEditing?()
 
             } catch {

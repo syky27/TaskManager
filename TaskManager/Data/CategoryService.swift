@@ -15,16 +15,31 @@ struct Category {
 
 protocol CategoryServiceProtocol {
     func getAll(completion: @escaping (Result<[Category], Error>) -> Void)
-    func save(category: Category) throws
+    func updateExisting(category: Category, with newCategory: Category) throws
+    func createNew(category: Category) throws
 }
 
 class CategoryService: CategoryServiceProtocol {
-    func save(category: Category) throws {
+    
+    func updateExisting(category: Category, with newCategory: Category) throws {
+        let context = CoreDataManager.shared.context
+        let predicate = NSPredicate(format: "name == %@", category.name)
+
+        let request: NSFetchRequest<DBCategory> = DBCategory.fetchRequest()
+        request.predicate = predicate
+
+        if let existingManagedObject = try context.fetch(request).first {
+            existingManagedObject.name = newCategory.name
+        }
+
+        try CoreDataManager.shared.saveContext()
+    }
+
+    func createNew(category: Category) throws {
         let managedObject = DBCategory(context: CoreDataManager.shared.context)
         managedObject.name = category.name
 
         try CoreDataManager.shared.saveContext()
-
     }
 
     func getAll(completion: @escaping (Result<[Category], Error>) -> Void) {
