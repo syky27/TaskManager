@@ -11,6 +11,7 @@ import UIKit
 
 struct Category {
     var name: String
+    var color: String
 }
 
 protocol CategoryServiceProtocol {
@@ -30,6 +31,7 @@ class CategoryService: CategoryServiceProtocol {
 
         if let existingManagedObject = try context.fetch(request).first {
             existingManagedObject.name = newCategory.name
+            existingManagedObject.color = newCategory.color
         }
 
         try CoreDataManager.shared.saveContext()
@@ -38,6 +40,7 @@ class CategoryService: CategoryServiceProtocol {
     func createNew(category: Category) throws {
         let managedObject = DBCategory(context: CoreDataManager.shared.context)
         managedObject.name = category.name
+        managedObject.color = category.color
 
         try CoreDataManager.shared.saveContext()
     }

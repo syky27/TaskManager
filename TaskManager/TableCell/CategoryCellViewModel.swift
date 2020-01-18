@@ -16,6 +16,10 @@ class CategoryCellViewModel {
         category.name
     }
 
+    var color: String {
+        category.color
+    }
+
     init(category: Category) {
         self.category = category
     }

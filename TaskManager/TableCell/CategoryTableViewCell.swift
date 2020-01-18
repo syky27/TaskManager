@@ -36,6 +36,8 @@ class CategoryTableViewCell: UITableViewCell {
     }
 
     private func setup() {
-        label.text = viewModel?.name ?? ""
+        guard let viewModel = viewModel else { return }
+        label.text = viewModel.name
+        contentView.backgroundColor = UIColor(hex: viewModel.color)
     }
 }

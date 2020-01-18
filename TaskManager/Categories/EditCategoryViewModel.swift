@@ -21,6 +21,7 @@ class EditCategoryViewModel {
     }
 
     @Published var name: String?
+    @Published var color: String?
     @Published var errorText: String?
     @Published var errorTextHidden: Bool = true
 
@@ -52,6 +53,7 @@ class EditCategoryViewModel {
         switch state {
         case .initial:
             name = category?.name ?? ""
+            color = category?.color
 
         case .error(let message):
             errorText = message
@@ -63,8 +65,8 @@ class EditCategoryViewModel {
         switch action {
         case .save:
             do {
-//                throw NSError(domain: "Err", code: -1, userInfo: ["NSLocalizedDescriptionKey": "Fucked up"])
-                let formCategory = Category(name: name ?? "")
+                let formCategory = Category(name: name ?? "", color: color ?? "")
+                print(color)
                 category != nil ? try service.updateExisting(category: category!, with: formCategory) :  try service.createNew(category: formCategory)
                 self.didFinishEditing?()
 
