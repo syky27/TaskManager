@@ -25,6 +25,8 @@
 		3523963623D364C2009DED42 /* TaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3523963523D364C2009DED42 /* TaskTableViewCell.swift */; };
 		3523963823D364F6009DED42 /* TaskCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3523963723D364F6009DED42 /* TaskCellViewModel.swift */; };
 		3523963A23D369AA009DED42 /* TasksViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3523963923D369AA009DED42 /* TasksViewModel.swift */; };
+		3523963C23D37711009DED42 /* EditTaskViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3523963B23D37711009DED42 /* EditTaskViewModel.swift */; };
+		3523963E23D37CB2009DED42 /* EditTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3523963D23D37CB2009DED42 /* EditTaskViewController.swift */; };
 		356E773623AFCCEE00222A29 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356E773523AFCCEE00222A29 /* AppDelegate.swift */; };
 		356E773823AFCCEE00222A29 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356E773723AFCCEE00222A29 /* SceneDelegate.swift */; };
 		356E773A23AFCCEE00222A29 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356E773923AFCCEE00222A29 /* ViewController.swift */; };
@@ -55,6 +57,8 @@
 		3523963523D364C2009DED42 /* TaskTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTableViewCell.swift; sourceTree = "<group>"; };
 		3523963723D364F6009DED42 /* TaskCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCellViewModel.swift; sourceTree = "<group>"; };
 		3523963923D369AA009DED42 /* TasksViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksViewModel.swift; sourceTree = "<group>"; };
+		3523963B23D37711009DED42 /* EditTaskViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskViewModel.swift; sourceTree = "<group>"; };
+		3523963D23D37CB2009DED42 /* EditTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskViewController.swift; sourceTree = "<group>"; };
 		356E773223AFCCEE00222A29 /* TaskManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TaskManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		356E773523AFCCEE00222A29 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		356E773723AFCCEE00222A29 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -175,6 +179,8 @@
 		3523962F23D35D38009DED42 /* Edit */ = {
 			isa = PBXGroup;
 			children = (
+				3523963B23D37711009DED42 /* EditTaskViewModel.swift */,
+				3523963D23D37CB2009DED42 /* EditTaskViewController.swift */,
 			);
 			path = Edit;
 			sourceTree = "<group>";
@@ -339,6 +345,7 @@
 				3523962923D357A1009DED42 /* DBTask+CoreDataProperties.swift in Sources */,
 				3523960923D0C897009DED42 /* EditCategoryViewController.swift in Sources */,
 				356E773A23AFCCEE00222A29 /* ViewController.swift in Sources */,
+				3523963C23D37711009DED42 /* EditTaskViewModel.swift in Sources */,
 				356E775D23AFDD8800222A29 /* DBCategory+CoreDataClass.swift in Sources */,
 				356E773623AFCCEE00222A29 /* AppDelegate.swift in Sources */,
 				35223E2023CE22F500808F50 /* CategoryService.swift in Sources */,
@@ -352,6 +359,7 @@
 				3523963323D36471009DED42 /* TasksViewController.swift in Sources */,
 				35223E1723CDE71900808F50 /* CategoryViewController.swift in Sources */,
 				3523961923D34A4A009DED42 /* ReuseIdentifying.swift in Sources */,
+				3523963E23D37CB2009DED42 /* EditTaskViewController.swift in Sources */,
 				3523962823D357A1009DED42 /* DBCategory+CoreDataProperties.swift in Sources */,
 				3523963A23D369AA009DED42 /* TasksViewModel.swift in Sources */,
 				356E775B23AFDD8800222A29 /* DBTask+CoreDataClass.swift in Sources */,

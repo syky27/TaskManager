@@ -38,9 +38,9 @@ class TasksViewController: UIViewController {
         // presentationControllerDidDismiss(_ presentationController: UIPresentationController)
         // does not get called when the VC gets dissmissed, only when it is dragged down...
         // see UIAdaptivePresentationControllerDelegate
-//        let editViewController = UINavigationController(rootViewController: EditCategoryViewController(viewModel: EditCategoryViewModel()))
-//        editViewController.modalPresentationStyle = .fullScreen
-//        navigationController?.present(editViewController, animated: true, completion: nil)
+        let editViewController = UINavigationController(rootViewController: EditTaskViewController(viewModel: EditTaskViewModel()))
+        editViewController.modalPresentationStyle = .fullScreen
+        navigationController?.present(editViewController, animated: true, completion: nil)
 
     }
 
