@@ -71,7 +71,12 @@ class EditTaskViewController: UIViewController {
     }
 
     @objc func categoryAction() {
-        navigationController?.pushViewController(CategoryViewController(), animated: true)
+        let controller = CategoryViewController()
+        controller.didSelectCategory = { [weak self] (category) in
+            self?.viewModel.action.send(.chosenCategory(category: category))
+        }
+
+        navigationController?.pushViewController(controller, animated: true)
     }
 
     @objc func deadlineAction() {
@@ -134,9 +139,20 @@ class EditTaskViewController: UIViewController {
         cancelables = [
             viewModel.$name.assign(to: \.text, on: nameField),
             viewModel.$deadline.sink(receiveValue: { [weak self] date in
-                self?.deadlineButton.setTitle(date?.description, for: .normal)
+                if let date = date {
+                    self?.deadlineButton.setTitle("Deadline: \(date.description)", for: .normal)
+                } else {
+                    self?.deadlineButton.setTitle("Choose Deadline", for: .normal)
+                }
             }),
 
+            viewModel.$category.sink(receiveValue: { [weak self] category in
+                if let category = category {
+                    self?.categoryButton.setTitle("Category: \(category.name)", for: .normal)
+                } else {
+                    self?.categoryButton.setTitle("Choose Category", for: .normal)
+                }
+            }),
             viewModel.$errorText.assign(to: \.text, on: errorLabel),
             viewModel.$errorTextHidden.assign(to: \.isHidden, on: errorLabel)
         ]

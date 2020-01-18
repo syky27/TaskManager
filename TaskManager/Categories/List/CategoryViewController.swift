@@ -12,6 +12,8 @@ class CategoryViewController: UIViewController {
 
     var categoryViewModel = CategoryViewModel()
 
+    var didSelectCategory: ((_ category: Category) -> Void)?
+
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(CategoryTableViewCell.self, forCellReuseIdentifier: CategoryTableViewCell.reuseIdentifier)
@@ -55,10 +57,24 @@ class CategoryViewController: UIViewController {
 
 extension CategoryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let editController = UINavigationController(rootViewController: EditCategoryViewController(viewModel: EditCategoryViewModel(category: categoryViewModel.categories[indexPath.row])))
-        editController.modalPresentationStyle = .fullScreen
-        navigationController?.present(editController, animated: true, completion: nil)
+        if let callback = didSelectCategory {
+            callback(categoryViewModel.categories[indexPath.row])
+        } else {
+            let editController = UINavigationController(rootViewController: EditCategoryViewController(viewModel: EditCategoryViewModel(category: categoryViewModel.categories[indexPath.row])))
+            editController.modalPresentationStyle = .fullScreen
+            navigationController?.present(editController, animated: true, completion: nil)
+        }
     }
+
+    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        if let oldIndex = tableView.indexPathForSelectedRow {
+            tableView.cellForRow(at: oldIndex)?.accessoryType = .none
+        }
+        tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+
+        return indexPath
+    }
+
 }
 
 extension CategoryViewController: UITableViewDataSource {

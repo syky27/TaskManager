@@ -18,6 +18,7 @@ class EditTaskViewModel {
 
     enum Action {
         case save
+        case chosenCategory(category: Category)
     }
 
     enum State {
@@ -27,7 +28,7 @@ class EditTaskViewModel {
 
     @Published var name: String?
     @Published var deadline: Date?
-    @Published var deadlineString: String?
+    @Published var category: Category?
     @Published var isDone: Bool?
 
     @Published var errorText: String?
@@ -100,6 +101,8 @@ class EditTaskViewModel {
             } catch {
                 state.value = .error(message: error.localizedDescription)
             }
+        case .chosenCategory(let category):
+            self.category = category
         }
     }
 }
