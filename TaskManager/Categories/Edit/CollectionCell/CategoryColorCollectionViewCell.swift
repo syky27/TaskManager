@@ -20,10 +20,10 @@ class CategoryColorCollectionViewCell: UICollectionViewCell {
         didSet {
             indicatorView.layer.borderColor = isSelected ? UIColor.black.cgColor : UIColor.clear.cgColor
         }
-      }
+    }
 
     fileprivate let indicatorView: UIView = {
-       let view = UIView()
+        let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.borderColor = UIColor.gray.cgColor
         view.layer.borderWidth = 2.0

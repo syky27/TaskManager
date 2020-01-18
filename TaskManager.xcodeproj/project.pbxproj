@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		35223E1723CDE71900808F50 /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35223E1623CDE71900808F50 /* CategoryView.swift */; };
+		35223E1723CDE71900808F50 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35223E1623CDE71900808F50 /* CategoryViewController.swift */; };
 		35223E1923CDE75000808F50 /* CategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35223E1823CDE75000808F50 /* CategoryViewModel.swift */; };
 		35223E2023CE22F500808F50 /* CategoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35223E1F23CE22F500808F50 /* CategoryService.swift */; };
 		3523960523D0C0CE009DED42 /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3523960423D0C0CE009DED42 /* CategoryTableViewCell.swift */; };
@@ -32,7 +32,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		35223E1623CDE71900808F50 /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
+		35223E1623CDE71900808F50 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		35223E1823CDE75000808F50 /* CategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewModel.swift; sourceTree = "<group>"; };
 		35223E1F23CE22F500808F50 /* CategoryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryService.swift; sourceTree = "<group>"; };
 		3523960423D0C0CE009DED42 /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
@@ -80,10 +80,8 @@
 		35223E2123CE3C1500808F50 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				35223E1823CDE75000808F50 /* CategoryViewModel.swift */,
-				35223E1623CDE71900808F50 /* CategoryView.swift */,
-				3523960823D0C897009DED42 /* EditCategoryViewController.swift */,
-				3523960A23D0CA50009DED42 /* EditCategoryViewModel.swift */,
+				3523962B23D35C59009DED42 /* Edit */,
+				3523962A23D35C4F009DED42 /* List */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -115,6 +113,58 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		3523962A23D35C4F009DED42 /* List */ = {
+			isa = PBXGroup;
+			children = (
+				3523960323D0C0A3009DED42 /* TableCell */,
+				35223E1823CDE75000808F50 /* CategoryViewModel.swift */,
+				35223E1623CDE71900808F50 /* CategoryViewController.swift */,
+			);
+			path = List;
+			sourceTree = "<group>";
+		};
+		3523962B23D35C59009DED42 /* Edit */ = {
+			isa = PBXGroup;
+			children = (
+				3523961023D34600009DED42 /* CollectionCell */,
+				3523960823D0C897009DED42 /* EditCategoryViewController.swift */,
+				3523960A23D0CA50009DED42 /* EditCategoryViewModel.swift */,
+			);
+			path = Edit;
+			sourceTree = "<group>";
+		};
+		3523962C23D35CF6009DED42 /* Props */ = {
+			isa = PBXGroup;
+			children = (
+				3523962623D357A1009DED42 /* DBCategory+CoreDataProperties.swift */,
+				3523962723D357A1009DED42 /* DBTask+CoreDataProperties.swift */,
+			);
+			path = Props;
+			sourceTree = "<group>";
+		};
+		3523962D23D35D2D009DED42 /* Tasks */ = {
+			isa = PBXGroup;
+			children = (
+				3523962F23D35D38009DED42 /* Edit */,
+				3523962E23D35D35009DED42 /* List */,
+			);
+			path = Tasks;
+			sourceTree = "<group>";
+		};
+		3523962E23D35D35009DED42 /* List */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = List;
+			sourceTree = "<group>";
+		};
+		3523962F23D35D38009DED42 /* Edit */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Edit;
+			sourceTree = "<group>";
+		};
 		356E772923AFCCEE00222A29 = {
 			isa = PBXGroup;
 			children = (
@@ -134,9 +184,8 @@
 		356E773423AFCCEE00222A29 /* TaskManager */ = {
 			isa = PBXGroup;
 			children = (
+				3523962D23D35D2D009DED42 /* Tasks */,
 				3523961523D34820009DED42 /* Helpers */,
-				3523961023D34600009DED42 /* CollectionCell */,
-				3523960323D0C0A3009DED42 /* TableCell */,
 				35223E2123CE3C1500808F50 /* Categories */,
 				35223E1D23CE22C300808F50 /* Data */,
 				356E776023AFE42900222A29 /* Database */,
@@ -154,8 +203,7 @@
 		356E775623AFDAC600222A29 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				3523962623D357A1009DED42 /* DBCategory+CoreDataProperties.swift */,
-				3523962723D357A1009DED42 /* DBTask+CoreDataProperties.swift */,
+				3523962C23D35CF6009DED42 /* Props */,
 				356E775723AFDD8800222A29 /* DBTask+CoreDataClass.swift */,
 				356E775923AFDD8800222A29 /* DBCategory+CoreDataClass.swift */,
 			);
@@ -276,7 +324,7 @@
 				35223E1923CDE75000808F50 /* CategoryViewModel.swift in Sources */,
 				356E774023AFCCEE00222A29 /* TaskManager.xcdatamodeld in Sources */,
 				356E774D23AFD8AF00222A29 /* CoreDataManager.swift in Sources */,
-				35223E1723CDE71900808F50 /* CategoryView.swift in Sources */,
+				35223E1723CDE71900808F50 /* CategoryViewController.swift in Sources */,
 				3523961923D34A4A009DED42 /* ReuseIdentifying.swift in Sources */,
 				3523962823D357A1009DED42 /* DBCategory+CoreDataProperties.swift in Sources */,
 				356E775B23AFDD8800222A29 /* DBTask+CoreDataClass.swift in Sources */,

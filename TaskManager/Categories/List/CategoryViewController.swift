@@ -8,14 +8,13 @@
 
 import UIKit
 
-class CategoryView: UIViewController {
-    let reuseID = "CategoryTableViewCell"
+class CategoryViewController: UIViewController {
 
     var categoryViewModel = CategoryViewModel()
 
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
-        tableView.register(CategoryTableViewCell.self, forCellReuseIdentifier: reuseID)
+        tableView.register(CategoryTableViewCell.self, forCellReuseIdentifier: CategoryTableViewCell.reuseIdentifier)
         tableView.dataSource = self
         tableView.delegate = self
         return tableView
@@ -54,7 +53,7 @@ class CategoryView: UIViewController {
     }
 }
 
-extension CategoryView: UITableViewDelegate {
+extension CategoryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let editController = UINavigationController(rootViewController: EditCategoryViewController(viewModel: EditCategoryViewModel(category: categoryViewModel.categories[indexPath.row])))
         editController.modalPresentationStyle = .fullScreen
@@ -62,14 +61,16 @@ extension CategoryView: UITableViewDelegate {
     }
 }
 
-extension CategoryView: UITableViewDataSource {
+extension CategoryViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return categoryViewModel.categories.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseID, for: indexPath) as? CategoryTableViewCell ?? CategoryTableViewCell(style: .default, reuseIdentifier: reuseID)
+        let cell = tableView.dequeueReusableCell(withIdentifier: CategoryTableViewCell.reuseIdentifier,
+                                                 for: indexPath) as? CategoryTableViewCell ??
+            CategoryTableViewCell(style: .default, reuseIdentifier: CategoryTableViewCell.reuseIdentifier)
 
         cell.viewModel = CategoryCellViewModel(category: categoryViewModel.categories[indexPath.row])
         return cell
