@@ -67,6 +67,10 @@ extension CategoryViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        guard didSelectCategory != nil else {
+            return indexPath
+        }
+        
         if let oldIndex = tableView.indexPathForSelectedRow {
             tableView.cellForRow(at: oldIndex)?.accessoryType = .none
         }
