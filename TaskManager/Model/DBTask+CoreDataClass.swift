@@ -13,4 +13,12 @@ import CoreData
 @objc(DBTask)
 public class DBTask: NSManagedObject {
 
+    func task() -> Task {
+        return Task(taskID: "#",
+                    name: name ?? "",
+                    deadline: deadline ?? Date(),
+                    done: done,
+                    category: Category(name: category?.name ?? "",
+                                       color: category?.color ?? ""))
+    }
 }
