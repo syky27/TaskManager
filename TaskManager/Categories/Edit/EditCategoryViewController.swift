@@ -102,7 +102,7 @@ class EditCategoryViewController: UIViewController {
     }
 
     @objc private func cancelAction() {
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
 
     @objc private func saveAction() {
@@ -118,7 +118,7 @@ class EditCategoryViewController: UIViewController {
 
         viewModel.didFinishEditing = { [weak self] in
             DispatchQueue.main.async {
-                self?.dismiss(animated: true, completion: nil)
+                self?.navigationController?.popViewController(animated: true)
             }
         }
     }

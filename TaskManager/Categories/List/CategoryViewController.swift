@@ -36,14 +36,8 @@ class CategoryViewController: UIViewController {
     }
 
     @objc func add() {
-        // iOS 13 presentation work around, to get back to old behaviour
-        // presentationControllerDidDismiss(_ presentationController: UIPresentationController)
-        // does not get called when the VC gets dissmissed, only when it is dragged down...
-        // see UIAdaptivePresentationControllerDelegate
-        let editViewController = UINavigationController(rootViewController: EditCategoryViewController(viewModel: EditCategoryViewModel()))
-        editViewController.modalPresentationStyle = .fullScreen
-        navigationController?.present(editViewController, animated: true, completion: nil)
-
+        navigationController?.pushViewController(EditCategoryViewController(viewModel: EditCategoryViewModel()), animated: true)
+//        navigationController?.present(editViewController, animated: true, completion: nil)
     }
 
     func bind() {
@@ -60,9 +54,7 @@ extension CategoryViewController: UITableViewDelegate {
         if let callback = didSelectCategory {
             callback(categoryViewModel.categories[indexPath.row])
         } else {
-            let editController = UINavigationController(rootViewController: EditCategoryViewController(viewModel: EditCategoryViewModel(category: categoryViewModel.categories[indexPath.row])))
-            editController.modalPresentationStyle = .fullScreen
-            navigationController?.present(editController, animated: true, completion: nil)
+            navigationController?.pushViewController(EditCategoryViewController(viewModel: EditCategoryViewModel(category: categoryViewModel.categories[indexPath.row])), animated: true)
         }
     }
 
@@ -70,7 +62,7 @@ extension CategoryViewController: UITableViewDelegate {
         guard didSelectCategory != nil else {
             return indexPath
         }
-        
+
         if let oldIndex = tableView.indexPathForSelectedRow {
             tableView.cellForRow(at: oldIndex)?.accessoryType = .none
         }

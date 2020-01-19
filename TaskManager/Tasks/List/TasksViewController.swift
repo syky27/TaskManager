@@ -36,11 +36,12 @@ class TasksViewController: UIViewController {
         super.viewDidLoad()
         view = tableView
         viewModel.fetch()
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(add))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addAction))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .plain, target: self, action: #selector(settingsAction))
         bind()
     }
 
-    @objc func add() {
+    @objc func addAction() {
         // iOS 13 presentation work around, to get back to old behaviour
         // presentationControllerDidDismiss(_ presentationController: UIPresentationController)
         // does not get called when the VC gets dissmissed, only when it is dragged down...
@@ -49,6 +50,10 @@ class TasksViewController: UIViewController {
         editViewController.modalPresentationStyle = .fullScreen
         navigationController?.present(editViewController, animated: true, completion: nil)
 
+    }
+
+    @objc func settingsAction() {
+        navigationController?.present(UINavigationController(rootViewController: SettingsTableViewController()), animated: true, completion: nil)
     }
 
     func bind() {

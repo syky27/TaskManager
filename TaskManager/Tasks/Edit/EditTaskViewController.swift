@@ -44,7 +44,7 @@ class EditTaskViewController: UIViewController {
     private let datePicker: UIDatePicker = {
         let picker = UIDatePicker()
         picker.minimumDate = Date()
-        picker.datePickerMode = .date
+        picker.datePickerMode = .dateAndTime
         picker.addTarget(self, action: #selector(pickerValueChanged), for: .valueChanged)
         return picker
     }()
