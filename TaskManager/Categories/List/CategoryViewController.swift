@@ -10,7 +10,7 @@ import UIKit
 
 class CategoryViewController: UIViewController {
 
-    var categoryViewModel = CategoryViewModel()
+    var viewModel = CategoryViewModel()
 
     var didSelectCategory: ((_ category: Category) -> Void)?
 
@@ -26,24 +26,23 @@ class CategoryViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        categoryViewModel.fetchCategories()
+        viewModel.fetchCategories()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view = tableView
-        categoryViewModel.fetchCategories()
+        viewModel.fetchCategories()
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(add))
         bind()
     }
 
     @objc func add() {
         navigationController?.pushViewController(EditCategoryViewController(viewModel: EditCategoryViewModel()), animated: true)
-//        navigationController?.present(editViewController, animated: true, completion: nil)
     }
 
     func bind() {
-        categoryViewModel.categoriesChanged = { [weak self] in
+        viewModel.categoriesChanged = { [weak self] in
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
             }
@@ -54,9 +53,9 @@ class CategoryViewController: UIViewController {
 extension CategoryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let callback = didSelectCategory {
-            callback(categoryViewModel.categories[indexPath.row])
+            callback(viewModel.categories[indexPath.row])
         } else {
-            navigationController?.pushViewController(EditCategoryViewController(viewModel: EditCategoryViewModel(category: categoryViewModel.categories[indexPath.row])), animated: true)
+            navigationController?.pushViewController(EditCategoryViewController(viewModel: EditCategoryViewModel(category: viewModel.categories[indexPath.row])), animated: true)
         }
     }
 
@@ -68,6 +67,7 @@ extension CategoryViewController: UITableViewDelegate {
         if let oldIndex = tableView.indexPathForSelectedRow {
             tableView.cellForRow(at: oldIndex)?.accessoryType = .none
         }
+
         tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
 
         return indexPath
@@ -82,7 +82,7 @@ extension CategoryViewController: UITableViewDelegate {
 extension CategoryViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return categoryViewModel.categories.count
+        return viewModel.categories.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -90,7 +90,7 @@ extension CategoryViewController: UITableViewDataSource {
                                                  for: indexPath) as? CategoryTableViewCell ??
             CategoryTableViewCell(style: .default, reuseIdentifier: CategoryTableViewCell.reuseIdentifier)
 
-        cell.viewModel = CategoryCellViewModel(category: categoryViewModel.categories[indexPath.row])
+        cell.viewModel = CategoryCellViewModel(category: viewModel.categories[indexPath.row])
         return cell
     }
 }
