@@ -17,7 +17,7 @@ class TasksViewModel {
 
     var cancelables: [AnyCancellable] = []
 
-    init(taskService: TaskServiceProtocol = TaskService()) {
+    init(taskService: TaskServiceProtocol = TaskCoreDataService()) {
         self.taskService = taskService
 
         cancelables = [

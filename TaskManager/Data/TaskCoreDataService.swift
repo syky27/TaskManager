@@ -19,7 +19,7 @@ protocol TaskServiceProtocol {
     func scheduleAllNotifications()
 }
 
-class TaskService: TaskServiceProtocol {
+class TaskCoreDataService: TaskServiceProtocol {
 
     func removeAllPendingNotifications() {
         getAll { result in

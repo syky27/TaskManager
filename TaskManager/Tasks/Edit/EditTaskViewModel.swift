@@ -44,7 +44,7 @@ class EditTaskViewModel {
 
     var didFinishEditing: (() -> Void)?
 
-    init(task: Task? = nil, service: TaskServiceProtocol = TaskService()) {
+    init(task: Task? = nil, service: TaskServiceProtocol = TaskCoreDataService()) {
         self.service = service
         self.task = task
 
