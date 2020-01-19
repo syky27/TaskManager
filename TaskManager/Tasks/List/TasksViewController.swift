@@ -15,8 +15,11 @@ class TasksViewController: UIViewController {
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(TaskTableViewCell.self, forCellReuseIdentifier: TaskTableViewCell.reuseIdentifier)
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 44
         tableView.dataSource = self
         tableView.delegate = self
+//        tableView.backgroundColor = .white
         return tableView
     }()
 
@@ -58,6 +61,10 @@ extension TasksViewController: UITableViewDelegate {
 //        let editController = UINavigationController(rootViewController: EditCategoryViewController(viewModel: EditCategoryViewModel(category: categoryViewModel.categories[indexPath.row])))
 //        editController.modalPresentationStyle = .fullScreen
 //        navigationController?.present(editController, animated: true, completion: nil)
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
     }
 }
 

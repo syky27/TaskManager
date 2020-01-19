@@ -46,16 +46,17 @@ class TaskTableViewCell: UITableViewCell {
     private func layout() {
         let margin: CGFloat = 4.0
 
-        addSubview(nameLabel)
-        addSubview(deadlineLabel)
-        addSubview(categoryLabel)
+        contentView.addSubview(nameLabel)
+        contentView.addSubview(deadlineLabel)
+        contentView.addSubview(categoryLabel)
 
         [
-            nameLabel.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: margin),
-            nameLabel.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor, constant: margin),
+            nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: margin),
+            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: margin),
             deadlineLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: margin),
             deadlineLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
-            categoryLabel.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor, constant: margin),
+            deadlineLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -margin),
+            categoryLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: margin),
             categoryLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
         ].forEach { $0.isActive = true}
 
@@ -66,6 +67,7 @@ class TaskTableViewCell: UITableViewCell {
         nameLabel.text = viewModel.name
         deadlineLabel.text = viewModel.deadline.description
         categoryLabel.text = viewModel.categoryName
-        contentView.backgroundColor = UIColor(hex: viewModel.categoryColor)
+        categoryLabel.backgroundColor = UIColor(hex: viewModel.categoryColor)
+
     }
 }

@@ -68,13 +68,21 @@ class EditTaskViewModel {
             throw EditTaskError.invalidForm(field: "deadline")
         }
 
-        return Task(taskID: UUID().uuidString, name: name, deadline: deadline, done: false, category: Category(name: "Test", color: "ffffff"))
+        guard let isDone = isDone else {
+            throw EditTaskError.invalidForm(field: "isDone")
+        }
+
+        return Task(taskID: UUID().uuidString, name: name, deadline: deadline, done: isDone, category: Category(name: "Test", color: "ffffff"))
     }
 
     func processState(_ state: State) {
         switch state {
         case .initial:
-            guard let task = task else { return }
+            guard let task = task else {
+                deadline = Date()
+                isDone = false
+                return
+            }
             name = task.name
             deadline = task.deadline
             isDone = task.done

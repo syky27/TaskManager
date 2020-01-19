@@ -8,16 +8,9 @@
 
 import UIKit
 import Combine
+import SnapKit
 
 class EditTaskViewController: UIViewController {
-
-    private let nameField: UITextField = {
-        let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-        textField.placeholder = "Name"
-        return textField
-    }()
 
     private let errorLabel: UILabel = {
         let label = UILabel()
@@ -26,6 +19,14 @@ class EditTaskViewController: UIViewController {
         label.backgroundColor = .red
         label.font = UIFont.boldSystemFont(ofSize: 14)
         return label
+    }()
+
+    private let nameField: UITextField = {
+        let textField = UITextField()
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        textField.placeholder = "Name"
+        return textField
     }()
 
     private let categoryButton: UIButton = {
@@ -40,15 +41,22 @@ class EditTaskViewController: UIViewController {
         return button
     }()
 
-    private let deadlineButton: UIButton = {
+    private let datePicker: UIDatePicker = {
+        let picker = UIDatePicker()
+        picker.minimumDate = Date()
+        picker.datePickerMode = .date
+        picker.addTarget(self, action: #selector(pickerValueChanged), for: .valueChanged)
+        return picker
+    }()
+
+    private let isDoneButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Choose Deadline", for: .normal)
+        button.setTitle("Active", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.layer.borderColor = UIColor.black.cgColor
         button.layer.borderWidth = 1.0
         button.layer.cornerRadius = 5.0
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(deadlineAction), for: .touchUpInside)
+        button.addTarget(self, action: #selector(isDoneAction), for: .touchUpInside)
         return button
     }()
 
@@ -70,19 +78,6 @@ class EditTaskViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
 
-    @objc func categoryAction() {
-        let controller = CategoryViewController()
-        controller.didSelectCategory = { [weak self] (category) in
-            self?.viewModel.action.send(.chosenCategory(category: category))
-        }
-
-        navigationController?.pushViewController(controller, animated: true)
-    }
-
-    @objc func deadlineAction() {
-        print("Picker")
-    }
-
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -95,32 +90,96 @@ class EditTaskViewController: UIViewController {
     }
 
     private func layout() {
-        let margin: CGFloat = 8
+        let spacing: CGFloat = 12
 
         view.backgroundColor = .white
         view.addSubview(nameField)
         view.addSubview(errorLabel)
         view.addSubview(categoryButton)
-        view.addSubview(deadlineButton)
+        view.addSubview(datePicker)
+        view.addSubview(isDoneButton)
 
-        errorLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        errorLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-        errorLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        errorLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        nameField.snp.makeConstraints { make in
+            make.left.top.right.equalTo(view.safeAreaLayoutGuide).inset(spacing)
+        }
 
-        nameField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: margin).isActive = true
-        nameField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: margin).isActive = true
-        nameField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: margin).isActive = true
+        categoryButton.snp.makeConstraints { make in
+            make.top.equalTo(nameField.snp.bottom).offset(spacing)
+            make.left.right.equalTo(view).inset(spacing)
+        }
 
-        categoryButton.topAnchor.constraint(equalTo: nameField.bottomAnchor, constant: margin).isActive = true
-        categoryButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: margin).isActive = true
-        categoryButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -margin).isActive = true
+        datePicker.snp.makeConstraints { make in
+            make.top.equalTo(categoryButton.snp.bottom).offset(spacing)
+            make.left.right.equalTo(view).offset(spacing)
+        }
 
-        deadlineButton.topAnchor.constraint(equalTo: categoryButton.bottomAnchor, constant: margin).isActive = true
-        deadlineButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: margin).isActive = true
-        deadlineButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -margin).isActive = true
+        isDoneButton.snp.makeConstraints { make in
+            make.top.equalTo(datePicker.snp.bottom).offset(spacing)
+            make.left.right.equalTo(view).inset(spacing)
+        }
 
     }
+
+    private func bindToViewModel() {
+        cancelables = [
+            viewModel.$name.assign(to: \.text, on: nameField),
+            viewModel.$deadline.sink(receiveValue: { [weak self] date in
+                if let date = date {
+                    self?.datePicker.setDate(date, animated: true)
+                } else {
+                    self?.datePicker.setDate(Date(), animated: true)
+                }
+            }),
+
+            viewModel.$category.sink(receiveValue: { [weak self] category in
+                if let category = category {
+                    self?.categoryButton.setTitle("Category: \(category.name)", for: .normal)
+                } else {
+                    self?.categoryButton.setTitle("Choose Category", for: .normal)
+                }
+            }),
+
+            viewModel.$isDone.sink(receiveValue: { [weak self] isDone in
+                let status = isDone ?? false ? "resolved" : "active"
+                self?.isDoneButton.setTitle("Status: \(status)", for: .normal)
+            }),
+
+            viewModel.$errorText.assign(to: \.text, on: errorLabel),
+            viewModel.$errorTextHidden.assign(to: \.isHidden, on: errorLabel)
+        ]
+
+        viewModel.didFinishEditing = { [weak self] in
+            DispatchQueue.main.async {
+                self?.dismiss(animated: true, completion: nil)
+            }
+        }
+    }
+
+    // MARK: - Form Life cycle
+
+    @objc func textFieldDidChange(_ sender: UITextField) {
+        viewModel.name = sender.text ?? ""
+    }
+
+    @objc func pickerValueChanged(picker: UIDatePicker) {
+        viewModel.deadline = picker.date
+    }
+
+    @objc func isDoneAction() {
+        viewModel.isDone = !(viewModel.isDone ?? false)
+    }
+
+    @objc func categoryAction() {
+        let controller = CategoryViewController()
+        controller.didSelectCategory = { [weak self] (category) in
+            // TODO:  Why not write directly
+            self?.viewModel.action.send(.chosenCategory(category: category))
+        }
+
+        navigationController?.pushViewController(controller, animated: true)
+    }
+
+    // MARK: - View Life cycle
 
     private func setButtons() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelAction))
@@ -133,38 +192,5 @@ class EditTaskViewController: UIViewController {
 
     @objc private func saveAction() {
         viewModel.action.send(.save)
-    }
-
-    private func bindToViewModel() {
-        cancelables = [
-            viewModel.$name.assign(to: \.text, on: nameField),
-            viewModel.$deadline.sink(receiveValue: { [weak self] date in
-                if let date = date {
-                    self?.deadlineButton.setTitle("Deadline: \(date.description)", for: .normal)
-                } else {
-                    self?.deadlineButton.setTitle("Choose Deadline", for: .normal)
-                }
-            }),
-
-            viewModel.$category.sink(receiveValue: { [weak self] category in
-                if let category = category {
-                    self?.categoryButton.setTitle("Category: \(category.name)", for: .normal)
-                } else {
-                    self?.categoryButton.setTitle("Choose Category", for: .normal)
-                }
-            }),
-            viewModel.$errorText.assign(to: \.text, on: errorLabel),
-            viewModel.$errorTextHidden.assign(to: \.isHidden, on: errorLabel)
-        ]
-
-        viewModel.didFinishEditing = { [weak self] in
-            DispatchQueue.main.async {
-                self?.dismiss(animated: true, completion: nil)
-            }
-        }
-    }
-
-    @objc func textFieldDidChange(_ sender: UITextField) {
-        viewModel.name = sender.text ?? ""
     }
 }
