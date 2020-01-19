@@ -1,0 +1,14 @@
+# Simple Task Manager
+- [ ] The main screen will contain a list of tasks
+- [ ] Each task contains the name, date (not the date of creation, but the date that the user enters as a deadline) and category
+- [ ] Category includes the name and color (use only a simple system colors)
+- [ ] Within the task on the main screen, the name of the task, date and color of the respective category will also be displayed
+- [ ] There will be two buttons on the right in the navigation bar – “Settings” and “Add a New Task”
+- [ ] Tasks can be deleted by a swipe
+- [ ] Details about the task will be displayed after tapping on the task. Data can be edited. Users will be able to turn on the notification (based on the time and date specified in the task)
+- [ ] Users should be able to mark the task as done (on the main screen and in the detailed view too). Tasks that are done will be displayed on the main screen clearly separated from tasks that are not done.
+- [ ] In the settings, users will be able to add categories (there will be 4 categories available by default) and change their colors.
+- [ ] Categories cannot be deleted.
+- [ ] User will be also able to turn off all the notifications and set sorting of tasks (by the date or alphabetically)
+- [ ] It’s necessary to use Core Data for storage
+- [ ] For the implementation of incompletely specified items (marking task as done, editing categories in settings, ...) use your own invention and creativity :)

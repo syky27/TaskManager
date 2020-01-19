@@ -29,6 +29,7 @@ class TasksViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        // TODO: Rework
         viewModel.fetch()
     }
 
