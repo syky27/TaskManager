@@ -18,7 +18,8 @@ public class DBTask: NSManagedObject {
                     name: name ?? "",
                     deadline: deadline ?? Date(),
                     done: done,
-                    category: Category(name: category?.name ?? "",
+                    category: Category(categoryID: category?.objectID,
+                                       name: category?.name ?? "",
                                        color: category?.color ?? ""))
     }
 }
