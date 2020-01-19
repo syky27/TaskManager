@@ -8,8 +8,9 @@
 
 import UIKit
 import Combine
+import SnapKit
 
-let sampleColors = ["#f7347a", "#660099", "#0070ff", "#ce8054", "#d42069", "#003366"]
+let sampleColors = ["#ff1433", "#bc145a", "#ffb732", "#38acff", "#d42069", "#003366"]
 
 class EditCategoryViewController: UIViewController {
 
@@ -22,7 +23,9 @@ class EditCategoryViewController: UIViewController {
 
     private let errorLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .red
+        label.textColor = .black
+        label.backgroundColor = .red
+        label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 14)
         return label
     }()
@@ -37,17 +40,12 @@ class EditCategoryViewController: UIViewController {
         return collectionView
     }()
 
-    var cancelables: [AnyCancellable] = []
-
     override var title: String? {
-        get {
-            viewModel.name == "" ? "New Category" : "Editing \(viewModel.name ?? "Category")"
-        }
-        set {
-            super.title = newValue
-        }
+        get { viewModel.name == "" ? "New Category" : "Editing \(viewModel.name ?? "Category")" }
+        set(newValue) { super.title = newValue }
     }
 
+    var cancelables: [AnyCancellable] = []
     let viewModel: EditCategoryViewModel
 
     init(viewModel: EditCategoryViewModel) {
@@ -64,36 +62,33 @@ class EditCategoryViewController: UIViewController {
         layout()
         setButtons()
         bindToViewModel()
-
         colorCollectionView.delegate = self
         colorCollectionView.dataSource = self
     }
 
     private func layout() {
-
+        let spacing: CGFloat = 16.0
         view.backgroundColor = .white
 
         textField.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(textField)
-
-        textField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8).isActive = true
-        textField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8).isActive = true
-        textField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 8).isActive = true
-
-        errorLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(colorCollectionView)
         view.addSubview(errorLabel)
 
-        errorLabel.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: 8).isActive = true
-        errorLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8).isActive = true
-        errorLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 8).isActive = true
+        errorLabel.snp.makeConstraints { make in
+            make.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            make.height.equalTo(16)
+        }
 
-        colorCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(colorCollectionView)
+        textField.snp.makeConstraints { make in
+            make.top.equalTo(errorLabel.snp.bottom)
+            make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(spacing)
+        }
 
-        colorCollectionView.topAnchor.constraint(equalTo: errorLabel.bottomAnchor, constant: 8).isActive = true
-        colorCollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8).isActive = true
-        colorCollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 8).isActive = true
-        colorCollectionView.heightAnchor.constraint(equalToConstant: 150).isActive = true
+        colorCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(textField.snp.bottom).offset(spacing)
+            make.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide).inset(spacing)
+        }
     }
 
     private func setButtons() {
@@ -112,6 +107,9 @@ class EditCategoryViewController: UIViewController {
     private func bindToViewModel() {
         cancelables = [
             viewModel.$name.assign(to: \.text, on: textField),
+            viewModel.$color.sink(receiveValue: { colorString in
+                self.colorCollectionView.reloadData()
+            }),
             viewModel.$errorText.assign(to: \.text, on: errorLabel),
             viewModel.$errorTextHidden.assign(to: \.isHidden, on: errorLabel)
         ]
@@ -140,6 +138,12 @@ extension EditCategoryViewController: UICollectionViewDataSource, UICollectionVi
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryColorCollectionViewCell.reuseIdentifier,
                                                       for: indexPath) as? CategoryColorCollectionViewCell ?? CategoryColorCollectionViewCell()
+
+        if let index =  sampleColors.firstIndex(of: viewModel.color ?? "") {
+            if index == indexPath.row {
+                cell.isSelected = true
+            }
+        }
 
         cell.viewModel = CategoryColorCellViewModel(colorHex: sampleColors[indexPath.row])
         return cell
