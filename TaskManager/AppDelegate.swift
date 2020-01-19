@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
-    func createDefaultCategories() {
+    private func createDefaultCategories() {
         let categoryService = CategoryService()
 
         categoryService.getAll(completion: { result in
@@ -38,7 +38,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         })
     }
-
 
     // MARK: UISceneSession Lifecycle
 

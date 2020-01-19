@@ -60,6 +60,17 @@ class EditTaskViewController: UIViewController {
         return button
     }()
 
+    private let notifyButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Notication", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.layer.borderColor = UIColor.black.cgColor
+        button.layer.borderWidth = 1.0
+        button.layer.cornerRadius = 5.0
+        button.addTarget(self, action: #selector(notifyAction), for: .touchUpInside)
+        return button
+    }()
+
     var cancelables: [AnyCancellable] = []
 
     override var title: String? {
@@ -98,6 +109,7 @@ class EditTaskViewController: UIViewController {
         view.addSubview(categoryButton)
         view.addSubview(datePicker)
         view.addSubview(isDoneButton)
+        view.addSubview(notifyButton)
 
         nameField.snp.makeConstraints { make in
             make.left.top.right.equalTo(view.safeAreaLayoutGuide).inset(spacing)
@@ -115,6 +127,11 @@ class EditTaskViewController: UIViewController {
 
         isDoneButton.snp.makeConstraints { make in
             make.top.equalTo(datePicker.snp.bottom).offset(spacing)
+            make.left.right.equalTo(view).inset(spacing)
+        }
+
+        notifyButton.snp.makeConstraints { make in
+            make.top.equalTo(isDoneButton.snp.bottom).offset(spacing)
             make.left.right.equalTo(view).inset(spacing)
         }
 
@@ -140,8 +157,13 @@ class EditTaskViewController: UIViewController {
             }),
 
             viewModel.$isDone.sink(receiveValue: { [weak self] isDone in
-                let status = isDone ?? false ? "resolved" : "active"
+                let status = isDone ?? false ? "Resolved" : "Active"
                 self?.isDoneButton.setTitle("Status: \(status)", for: .normal)
+            }),
+
+            viewModel.$notify.sink(receiveValue: { [weak self] notify in
+                let status = notify ?? false ? "Enabled" : "Disabled"
+                self?.notifyButton.setTitle("Notification: \(status)", for: .normal)
             }),
 
             viewModel.$errorText.assign(to: \.text, on: errorLabel),
@@ -167,6 +189,10 @@ class EditTaskViewController: UIViewController {
 
     @objc func isDoneAction() {
         viewModel.isDone = !(viewModel.isDone ?? false)
+    }
+
+    @objc func notifyAction() {
+        viewModel.notify = !(viewModel.notify ?? false)
     }
 
     @objc func categoryAction() {

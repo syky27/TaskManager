@@ -14,6 +14,7 @@ struct Task {
     var name: String
     var deadline: Date
     var done: Bool
+    var notify: Bool
     var category: Category
 }
 
@@ -23,9 +24,83 @@ protocol TaskServiceProtocol {
     func createNew(task: Task) throws
     func delete(task: Task) throws
     func resolve(task: Task) throws
+    func removeAllPendingNotifications()
+    func scheduleAllNotifications()
 }
 
 class TaskService: TaskServiceProtocol {
+
+    func removeAllPendingNotifications() {
+        getAll { result in
+            switch result {
+            case .success(let tasks):
+                tasks.forEach(self.cancelNotificationFor)
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+
+
+    /// Scheduling notification for all not resolved tasks in future
+    func scheduleAllNotifications() {
+        getAll { result in
+            switch result {
+            case .success(let tasks):
+                tasks.filter({
+                    $0.deadline.compare(Date()) == .orderedDescending
+                }).filter({
+                    !$0.done
+                }).forEach(self.scheduleNotificationFor)
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+
+    private func scheduleNotificationFor(task: Task) {
+        guard let taskIDString = task.taskID?.uriRepresentation().absoluteString else {
+            fatalError()
+        }
+
+        let center = UNUserNotificationCenter.current()
+
+        let content = UNMutableNotificationContent()
+        content.title = "Task Reminder"
+        content.body = task.name
+        content.categoryIdentifier = "alarm"
+        content.sound = UNNotificationSound.default
+
+        let components = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: task.deadline)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
+
+        let request = UNNotificationRequest(identifier: taskIDString, content: content, trigger: trigger)
+        center.add(request)
+    }
+
+    private func cancelNotificationFor(task: Task) {
+        guard let taskIDString = task.taskID?.uriRepresentation().absoluteString else {
+            fatalError()
+        }
+
+        let center = UNUserNotificationCenter.current()
+        center.removePendingNotificationRequests(withIdentifiers: [taskIDString])
+    }
+
+    func notify(task: Task) throws {
+        guard let taskID = task.taskID else {
+            fatalError("Missing TaskID")
+        }
+        let context = CoreDataManager.shared.context
+
+        if let object = try context.existingObject(with: taskID) as? DBTask {
+            object.notify = !object.notify
+            try CoreDataManager.shared.context.save()
+            if object.notify {
+                scheduleNotificationFor(task: object.task())
+            }
+        }
+    }
 
     func resolve(task: Task) throws {
         guard let taskID = task.taskID else {
@@ -54,36 +129,33 @@ class TaskService: TaskServiceProtocol {
     }
 
     func updateExisting(task: Task, with newTask: Task) throws {
-        guard let taskID = task.taskID, let categoryID = newTask.category.categoryID else {
+        guard let taskID = task.taskID, newTask.category.categoryID != nil else {
             fatalError("Missing TaskID or CategoryID")
         }
 
         let context = CoreDataManager.shared.context
         if let existingManagedObject = try context.existingObject(with: taskID) as? DBTask {
-            existingManagedObject.name = newTask.name
-            existingManagedObject.deadline = newTask.deadline
-            existingManagedObject.done = newTask.done
+            try existingManagedObject.replaceWith(task: newTask)
+            try CoreDataManager.shared.saveContext()
 
-            if let existingCategory = try context.existingObject(with: categoryID) as? DBCategory {
-                existingManagedObject.category = existingCategory
+            if existingManagedObject.notify {
+                scheduleNotificationFor(task: existingManagedObject.task())
             }
         }
-
-        try CoreDataManager.shared.saveContext()
     }
 
     func createNew(task: Task) throws {
-        guard let categoryID = task.category.categoryID else {
-            fatalError("Missing Category ID")
-        }
+         guard task.category.categoryID != nil else {
+                   fatalError("Missing TaskID or CategoryID")
+               }
 
         let managedObject = DBTask(context: CoreDataManager.shared.context)
-        managedObject.name = task.name
-        managedObject.deadline = task.deadline
-        managedObject.done = task.done
-        managedObject.category = try CoreDataManager.shared.context.existingObject(with: categoryID) as? DBCategory
-
+        try managedObject.replaceWith(task: task)
         try CoreDataManager.shared.saveContext()
+
+        if managedObject.notify {
+            scheduleNotificationFor(task: managedObject.task())
+        }
     }
 
     func getAll(completion: @escaping (Result<[Task], Error>) -> Void) {

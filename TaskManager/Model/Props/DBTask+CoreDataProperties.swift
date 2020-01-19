@@ -1,9 +1,8 @@
 //
 //  DBTask+CoreDataProperties.swift
-//  TaskManager
+//  
 //
-//  Created by Tomas Sykora, jr. on 18/01/2020.
-//  Copyright © 2020 AJTY. All rights reserved.
+//  Created by Tomas Sykora, jr. on 19/01/2020.
 //
 //
 
@@ -19,6 +18,7 @@ extension DBTask {
     @NSManaged public var deadline: Date?
     @NSManaged public var done: Bool
     @NSManaged public var name: String?
+    @NSManaged public var notify: Bool
     @NSManaged public var category: DBCategory?
 
 }

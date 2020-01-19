@@ -9,10 +9,11 @@
         <attribute name="deadline" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="done" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="notify" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <relationship name="category" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DBCategory" inverseName="tasks" inverseEntity="DBCategory"/>
     </entity>
     <elements>
         <element name="DBCategory" positionX="-54" positionY="18" width="128" height="88"/>
-        <element name="DBTask" positionX="-63" positionY="-18" width="128" height="103"/>
+        <element name="DBTask" positionX="-63" positionY="-18" width="128" height="118"/>
     </elements>
 </model>

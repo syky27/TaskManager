@@ -28,6 +28,7 @@ class EditTaskViewModel {
     @Published var deadline: Date?
     @Published var category: Category?
     @Published var isDone: Bool?
+    @Published var notify: Bool?
 
     @Published var errorText: String?
     @Published var errorTextHidden: Bool = true
@@ -74,7 +75,7 @@ class EditTaskViewModel {
             throw EditTaskError.invalidForm(field: "category")
         }
 
-        return Task(taskID: task?.taskID, name: name, deadline: deadline, done: isDone, category: category)
+        return Task(taskID: task?.taskID, name: name, deadline: deadline, done: isDone, notify: notify ?? false, category: category)
     }
 
     func processState(_ state: State) {
@@ -89,6 +90,7 @@ class EditTaskViewModel {
             deadline = task.deadline
             isDone = task.done
             category = task.category
+            notify = task.notify
 
         case .error(let message):
             errorText = message

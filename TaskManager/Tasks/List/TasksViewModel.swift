@@ -23,7 +23,11 @@ class TasksViewModel {
         cancelables = [
             SettingsService.didChange.sink(receiveValue: { [weak self] settings in
                 self?.sortTasksBy(settings: settings)
-                // TODO: Disable Enable notifications
+                if settings.notificationsEnabled {
+                    taskService.scheduleAllNotifications()
+                } else {
+                    taskService.removeAllPendingNotifications()
+                }
             })
         ]
     }
