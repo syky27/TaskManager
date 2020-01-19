@@ -41,7 +41,6 @@ class TaskService: TaskServiceProtocol {
         }
     }
 
-
     /// Scheduling notification for all not resolved tasks in future
     func scheduleAllNotifications() {
         getAll { result in
@@ -85,21 +84,6 @@ class TaskService: TaskServiceProtocol {
 
         let center = UNUserNotificationCenter.current()
         center.removePendingNotificationRequests(withIdentifiers: [taskIDString])
-    }
-
-    func notify(task: Task) throws {
-        guard let taskID = task.taskID else {
-            fatalError("Missing TaskID")
-        }
-        let context = CoreDataManager.shared.context
-
-        if let object = try context.existingObject(with: taskID) as? DBTask {
-            object.notify = !object.notify
-            try CoreDataManager.shared.context.save()
-            if object.notify {
-                scheduleNotificationFor(task: object.task())
-            }
-        }
     }
 
     func resolve(task: Task) throws {

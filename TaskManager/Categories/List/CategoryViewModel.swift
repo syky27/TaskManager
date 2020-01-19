@@ -26,7 +26,7 @@ class CategoryViewModel {
                 self.categories = categories
                 self.categoriesChanged?()
             case .failure(let error):
-                // TODO: Handle
+                // TODO: Handle in production
                 print(error)
             }
         }

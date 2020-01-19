@@ -72,7 +72,7 @@ class TasksViewModel {
                 self?.tasks = tasks
                 self?.sortTasksBy(settings: SettingsService.settings())
             case .failure(let error):
-                // TODO: Handle
+                // TODO: Notify User
                 print(error)
             }
         }

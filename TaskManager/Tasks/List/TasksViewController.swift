@@ -29,7 +29,7 @@ class TasksViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        // TODO: Rework
+        // This would not be neccesaary when the data source would be connected reactivly
         viewModel.fetch()
     }
 
@@ -43,18 +43,15 @@ class TasksViewController: UIViewController {
     }
 
     @objc func addAction() {
-        // iOS 13 presentation work around, to get back to old behaviour
-        // presentationControllerDidDismiss(_ presentationController: UIPresentationController)
-        // does not get called when the VC gets dissmissed, only when it is dragged down...
-        // see UIAdaptivePresentationControllerDelegate
         let editViewController = UINavigationController(rootViewController: EditTaskViewController(viewModel: EditTaskViewModel()))
         editViewController.modalPresentationStyle = .fullScreen
         navigationController?.present(editViewController, animated: true, completion: nil)
-
     }
 
     @objc func settingsAction() {
-        navigationController?.present(UINavigationController(rootViewController: SettingsTableViewController()), animated: true, completion: nil)
+        let controller = UINavigationController(rootViewController: SettingsTableViewController())
+        controller.modalPresentationStyle = .fullScreen
+        navigationController?.present(controller, animated: true, completion: nil)
     }
 
     func bind() {

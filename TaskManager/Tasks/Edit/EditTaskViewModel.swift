@@ -111,6 +111,11 @@ class EditTaskViewModel {
 
                 self.didFinishEditing?()
 
+            } catch let error as EditTaskError {
+                switch error {
+                case .invalidForm(let field):
+                    state.value = .error(message: "Invalid field: \(field)")
+                }
             } catch {
                 state.value = .error(message: error.localizedDescription)
             }

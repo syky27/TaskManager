@@ -107,7 +107,7 @@ class EditCategoryViewController: UIViewController {
     private func bindToViewModel() {
         cancelables = [
             viewModel.$name.assign(to: \.text, on: textField),
-            viewModel.$color.sink(receiveValue: { colorString in
+            viewModel.$color.sink(receiveValue: { _ in
                 self.colorCollectionView.reloadData()
             }),
             viewModel.$errorText.assign(to: \.text, on: errorLabel),

@@ -17,6 +17,11 @@ class SettingsTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(close))
+    }
+
+    @objc func close() {
+        self.dismiss(animated: true, completion: nil)
     }
 
     // MARK: - Table view data source

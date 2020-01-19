@@ -17,7 +17,9 @@ class EditTaskViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .black
         label.backgroundColor = .red
-        label.font = UIFont.boldSystemFont(ofSize: 14)
+        label.textAlignment = .center
+        label.adjustsFontSizeToFitWidth = true
+        label.sizeToFit()
         return label
     }()
 
@@ -101,7 +103,7 @@ class EditTaskViewController: UIViewController {
     }
 
     private func layout() {
-        let spacing: CGFloat = 12
+        let spacing: CGFloat = 16
 
         view.backgroundColor = .white
         view.addSubview(nameField)
@@ -110,6 +112,11 @@ class EditTaskViewController: UIViewController {
         view.addSubview(datePicker)
         view.addSubview(isDoneButton)
         view.addSubview(notifyButton)
+
+        errorLabel.snp.makeConstraints { make in
+            make.top.left.right.equalTo(view.safeAreaLayoutGuide)
+            make.height.equalTo(spacing)
+        }
 
         nameField.snp.makeConstraints { make in
             make.left.top.right.equalTo(view.safeAreaLayoutGuide).inset(spacing)
