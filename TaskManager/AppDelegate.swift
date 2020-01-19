@@ -13,9 +13,32 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        createDefaultCategories()
         return true
     }
+
+    func createDefaultCategories() {
+        let categoryService = CategoryService()
+
+        categoryService.getAll(completion: { result in
+            switch result {
+            case .success(let categories):
+                if categories.count < 4 {
+                    do {
+                        try categoryService.createNew(category: Category(categoryID: nil, name: "Blocker", color: "#ff1433"))
+                        try categoryService.createNew(category: Category(categoryID: nil, name: "Major", color: "#bc145a"))
+                        try categoryService.createNew(category: Category(categoryID: nil, name: "Minor", color: "#ffb732"))
+                        try categoryService.createNew(category: Category(categoryID: nil, name: "Trivial", color: "#38acff"))
+                    } catch {
+                        print(error.localizedDescription)
+                    }
+                }
+            case .failure(let error):
+                print("Could not create default categories with \(error.localizedDescription)")
+            }
+        })
+    }
+
 
     // MARK: UISceneSession Lifecycle
 
