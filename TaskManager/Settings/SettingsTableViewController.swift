@@ -33,11 +33,12 @@ class SettingsTableViewController: UITableViewController {
         case 0:
             navigationController?.pushViewController(CategoryViewController(), animated: true)
         case 1:
-            break
+            SettingsService.toggle(key: .alphabeticalOrder)
+            tableView.reloadData()
         default:
-            break
+            SettingsService.toggle(key: .notifications)
+            tableView.reloadData()
         }
-
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -50,12 +51,12 @@ class SettingsTableViewController: UITableViewController {
         case 1:
             let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
             cell.textLabel?.text = "Sorting"
-            cell.detailTextLabel?.text = "By the date"
+            cell.detailTextLabel?.text = SettingsService.settings().alphabeticalSort ? "Alphabetical" : "By Date"
             return cell
         default:
             let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
             cell.textLabel?.text = "Notifications"
-            cell.detailTextLabel?.text = "On"
+            cell.detailTextLabel?.text = SettingsService.settings().notificationsEnabled ? "Enabled" : "Disabled"
             return cell
         }
     }
