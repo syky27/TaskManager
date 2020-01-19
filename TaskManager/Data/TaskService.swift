@@ -10,7 +10,7 @@ import CoreData
 import UIKit
 
 struct Task {
-    var taskID: String
+    var taskID: NSManagedObjectID?
     var name: String
     var deadline: Date
     var done: Bool
@@ -26,28 +26,34 @@ protocol TaskServiceProtocol {
 class TaskService: TaskServiceProtocol {
 
     func updateExisting(task: Task, with newTask: Task) throws {
+        guard let taskID = task.taskID, let categoryID = newTask.category.categoryID else {
+            fatalError("Missing TaskID or CategoryID")
+        }
+
         let context = CoreDataManager.shared.context
-        let predicate = NSPredicate(format: "taskID == %@", task.taskID)
-
-        let request: NSFetchRequest<DBTask> = DBTask.fetchRequest()
-        request.predicate = predicate
-
-        if let existingManagedObject = try context.fetch(request).first {
+        if let existingManagedObject = try context.existingObject(with: taskID) as? DBTask {
             existingManagedObject.name = newTask.name
             existingManagedObject.deadline = newTask.deadline
             existingManagedObject.done = newTask.done
-            // TODO: Get CD Category
-//            existingManagedObject.category = newTask.category
+
+            if let existingCategory = try context.existingObject(with: categoryID) as? DBCategory {
+                existingManagedObject.category = existingCategory
+            }
         }
 
         try CoreDataManager.shared.saveContext()
     }
 
     func createNew(task: Task) throws {
+        guard let categoryID = task.category.categoryID else {
+            fatalError("Missing Category ID")
+        }
+
         let managedObject = DBTask(context: CoreDataManager.shared.context)
         managedObject.name = task.name
         managedObject.deadline = task.deadline
         managedObject.done = task.done
+        managedObject.category = try CoreDataManager.shared.context.existingObject(with: categoryID) as? DBCategory
 
         try CoreDataManager.shared.saveContext()
     }

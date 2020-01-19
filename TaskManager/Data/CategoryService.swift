@@ -10,6 +10,7 @@ import CoreData
 import UIKit
 
 struct Category {
+    var categoryID: NSManagedObjectID?
     var name: String
     var color: String
 }
@@ -23,13 +24,13 @@ protocol CategoryServiceProtocol {
 class CategoryService: CategoryServiceProtocol {
 
     func updateExisting(category: Category, with newCategory: Category) throws {
+        guard let categoryID = category.categoryID else {
+            fatalError("Missing Category ID")
+        }
+
         let context = CoreDataManager.shared.context
-        let predicate = NSPredicate(format: "name == %@", category.name)
 
-        let request: NSFetchRequest<DBCategory> = DBCategory.fetchRequest()
-        request.predicate = predicate
-
-        if let existingManagedObject = try context.fetch(request).first {
+        if let existingManagedObject = try context.existingObject(with: categoryID) as? DBCategory {
             existingManagedObject.name = newCategory.name
             existingManagedObject.color = newCategory.color
         }

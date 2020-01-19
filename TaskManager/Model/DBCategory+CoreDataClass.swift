@@ -14,6 +14,6 @@ import CoreData
 public class DBCategory: NSManagedObject {
 
     func category() -> Category {
-        return Category(name: name ?? "", color: color ?? "")
+        return Category(categoryID: objectID, name: name ?? "", color: color ?? "")
     }
 }

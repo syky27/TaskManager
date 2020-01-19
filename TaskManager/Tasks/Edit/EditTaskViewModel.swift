@@ -18,7 +18,6 @@ class EditTaskViewModel {
 
     enum Action {
         case save
-        case chosenCategory(category: Category)
     }
 
     enum State {
@@ -72,7 +71,11 @@ class EditTaskViewModel {
             throw EditTaskError.invalidForm(field: "isDone")
         }
 
-        return Task(taskID: UUID().uuidString, name: name, deadline: deadline, done: isDone, category: Category(name: "Test", color: "ffffff"))
+        guard let category = category else {
+            throw EditTaskError.invalidForm(field: "category")
+        }
+
+        return Task(taskID: task?.taskID, name: name, deadline: deadline, done: isDone, category: category)
     }
 
     func processState(_ state: State) {
@@ -86,6 +89,7 @@ class EditTaskViewModel {
             name = task.name
             deadline = task.deadline
             isDone = task.done
+            category = task.category
 
         case .error(let message):
             errorText = message
@@ -109,8 +113,6 @@ class EditTaskViewModel {
             } catch {
                 state.value = .error(message: error.localizedDescription)
             }
-        case .chosenCategory(let category):
-            self.category = category
         }
     }
 }

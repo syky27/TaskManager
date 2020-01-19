@@ -172,8 +172,7 @@ class EditTaskViewController: UIViewController {
     @objc func categoryAction() {
         let controller = CategoryViewController()
         controller.didSelectCategory = { [weak self] (category) in
-            // TODO:  Why not write directly
-            self?.viewModel.action.send(.chosenCategory(category: category))
+            self?.viewModel.category = category
         }
 
         navigationController?.pushViewController(controller, animated: true)

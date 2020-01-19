@@ -15,8 +15,30 @@ class TasksViewModel {
     private let taskService: TaskServiceProtocol
     var tasksChanged: (() -> Void)?
 
+    func numberOfItemsFor(section: Int) -> Int {
+        switch section {
+        case 0:
+            return tasks.filter({!$0.done}).count
+        case 1:
+            return tasks.filter({$0.done}).count
+        default:
+            fatalError("Too many sections")
+        }
+    }
+
     init(taskService: TaskServiceProtocol = TaskService()) {
         self.taskService = taskService
+    }
+
+    func getTaskFor(indexPath: IndexPath) -> Task {
+        switch indexPath.section {
+        case 0:
+            return tasks.filter({!$0.done})[indexPath.row]
+        case 1:
+            return tasks.filter({$0.done})[indexPath.row]
+        default:
+            fatalError("Too many sections")
+        }
     }
 
     func fetch() {

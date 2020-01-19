@@ -14,7 +14,7 @@ import CoreData
 public class DBTask: NSManagedObject {
 
     func task() -> Task {
-        return Task(taskID: "#",
+        return Task(taskID: objectID,
                     name: name ?? "",
                     deadline: deadline ?? Date(),
                     done: done,

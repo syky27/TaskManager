@@ -12,6 +12,11 @@ class TasksViewController: UIViewController {
 
     var viewModel = TasksViewModel()
 
+    override var title: String? {
+        get { "Tasks" }
+        set(newValue) { super.title = newValue }
+    }
+
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(TaskTableViewCell.self, forCellReuseIdentifier: TaskTableViewCell.reuseIdentifier)
@@ -19,7 +24,6 @@ class TasksViewController: UIViewController {
         tableView.estimatedRowHeight = 44
         tableView.dataSource = self
         tableView.delegate = self
-//        tableView.backgroundColor = .white
         return tableView
     }()
 
@@ -58,9 +62,12 @@ class TasksViewController: UIViewController {
 
 extension TasksViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let editController = UINavigationController(rootViewController: EditCategoryViewController(viewModel: EditCategoryViewModel(category: categoryViewModel.categories[indexPath.row])))
-//        editController.modalPresentationStyle = .fullScreen
-//        navigationController?.present(editController, animated: true, completion: nil)
+        let controller = UINavigationController(rootViewController:
+            EditTaskViewController(viewModel:
+                EditTaskViewModel(task: viewModel.getTaskFor(indexPath: indexPath))))
+
+        controller.modalPresentationStyle = .fullScreen
+        navigationController?.present(controller, animated: true, completion: nil)
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -75,11 +82,7 @@ extension TasksViewController: UITableViewDelegate {
 extension TasksViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            return viewModel.tasks.filter({!$0.done}).count
-        }
-
-        return viewModel.tasks.filter({$0.done}).count
+        return viewModel.numberOfItemsFor(section: section)
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -90,18 +93,11 @@ extension TasksViewController: UITableViewDataSource {
         return "Resolved"
     }
 
-
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TaskTableViewCell.reuseIdentifier,
-                                             for: indexPath) as? TaskTableViewCell ??
-        TaskTableViewCell(style: .default, reuseIdentifier: TaskTableViewCell.reuseIdentifier)
-
-        switch indexPath.section {
-        case 0:
-            cell.viewModel = TaskCellViewModel(task: viewModel.tasks.filter({!$0.done})[indexPath.row])
-        default:
-            cell.viewModel = TaskCellViewModel(task: viewModel.tasks.filter({!$0.done})[indexPath.row])
-        }
+                                                 for: indexPath) as? TaskTableViewCell ??
+            TaskTableViewCell(style: .default, reuseIdentifier: TaskTableViewCell.reuseIdentifier)
+        cell.viewModel = TaskCellViewModel(task: self.viewModel.getTaskFor(indexPath: indexPath))
 
         return cell
     }
