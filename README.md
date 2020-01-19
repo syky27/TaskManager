@@ -12,3 +12,9 @@
 - [X] User will be also able to turn off all the notifications and set sorting of tasks (by the date or alphabetically)
 - [X] It’s necessary to use Core Data for storage
 - [ ] For the implementation of incompletely specified items (marking task as done, editing categories in settings, ...) use your own invention and creativity :)
+
+
+## Things that could be better
+
+- Using combine and fetchresultcontroller to get updates for core data changes
+  - That would make life much easier, with substription to this service viewcontrollers would not have to be manually updated
