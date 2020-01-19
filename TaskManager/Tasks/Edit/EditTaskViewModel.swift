@@ -11,7 +11,6 @@ import Combine
 
 enum EditTaskError: Error {
     case invalidForm(field: String)
-    case outOfStock
 }
 
 class EditTaskViewModel {

@@ -15,6 +15,10 @@ class TasksViewModel {
     private let taskService: TaskServiceProtocol
     var tasksChanged: (() -> Void)?
 
+    init(taskService: TaskServiceProtocol = TaskService()) {
+        self.taskService = taskService
+    }
+
     func numberOfItemsFor(section: Int) -> Int {
         switch section {
         case 0:
@@ -24,10 +28,6 @@ class TasksViewModel {
         default:
             fatalError("Too many sections")
         }
-    }
-
-    init(taskService: TaskServiceProtocol = TaskService()) {
-        self.taskService = taskService
     }
 
     func getTaskFor(indexPath: IndexPath) -> Task {
@@ -52,5 +52,20 @@ class TasksViewModel {
                 print(error)
             }
         }
+    }
+
+    func delete(task: Task) {
+
+        // TODO: handle error
+        // swiftlint:disable:next force_try
+        try! taskService.delete(task: task)
+        // TODO: Combine...?
+        fetch()
+    }
+
+    func resolve(task: Task) {
+        // swiftlint:disable:next force_try
+        try! taskService.resolve(task: task)
+        fetch()
     }
 }

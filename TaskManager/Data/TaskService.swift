@@ -21,9 +21,37 @@ protocol TaskServiceProtocol {
     func getAll(completion: @escaping (Result<[Task], Error>) -> Void)
     func updateExisting(task: Task, with newTask: Task) throws
     func createNew(task: Task) throws
+    func delete(task: Task) throws
+    func resolve(task: Task) throws
 }
 
 class TaskService: TaskServiceProtocol {
+
+    func resolve(task: Task) throws {
+        guard let taskID = task.taskID else {
+            fatalError("Missing TaskID")
+        }
+        let context = CoreDataManager.shared.context
+
+        if let object = try context.existingObject(with: taskID) as? DBTask {
+            object.done = !object.done
+        }
+
+        try CoreDataManager.shared.context.save()
+    }
+
+    func delete(task: Task) throws {
+        guard let taskID = task.taskID else {
+            fatalError("Missing TaskID")
+        }
+        let context = CoreDataManager.shared.context
+
+        if let object = try context.existingObject(with: taskID) as? DBTask {
+            context.delete(object)
+        }
+
+        try CoreDataManager.shared.context.save()
+    }
 
     func updateExisting(task: Task, with newTask: Task) throws {
         guard let taskID = task.taskID, let categoryID = newTask.category.categoryID else {

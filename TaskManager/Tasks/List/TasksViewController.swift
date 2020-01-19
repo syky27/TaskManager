@@ -54,7 +54,7 @@ class TasksViewController: UIViewController {
     func bind() {
         viewModel.tasksChanged = { [weak self] in
             DispatchQueue.main.async {
-                self?.tableView.reloadData()
+                self?.tableView.reloadData(with: UITableView.RowAnimation.automatic)
             }
         }
     }
@@ -101,4 +101,27 @@ extension TasksViewController: UITableViewDataSource {
 
         return cell
     }
+
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            viewModel.delete(task: viewModel.getTaskFor(indexPath: indexPath))
+        }
+    }
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let resolveAction = UIContextualAction(style: .normal, title: "Close") { [weak self] (_, _, _) in
+            guard let self = self else { return }
+            self.viewModel.resolve(task: self.viewModel.getTaskFor(indexPath: indexPath) )
+        }
+
+            resolveAction.image = UIImage(systemName: "checkmark.rectangle")
+            resolveAction.backgroundColor = UIColor(hex: "#00cc66")
+
+            return UISwipeActionsConfiguration(actions: [resolveAction])
+
+    }
+
 }
