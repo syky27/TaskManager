@@ -64,22 +64,45 @@ extension TasksViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
+        UITableView.automaticDimension
+    }
+
+    func numberOfSections(in tableView: UITableView) -> Int {
+        2
     }
 }
 
 extension TasksViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.tasks.count
+        if section == 0 {
+            return viewModel.tasks.filter({!$0.done}).count
+        }
+
+        return viewModel.tasks.filter({$0.done}).count
     }
+
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            return "Active"
+        }
+
+        return "Resolved"
+    }
+
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TaskTableViewCell.reuseIdentifier,
-                                                 for: indexPath) as? TaskTableViewCell ??
-            TaskTableViewCell(style: .default, reuseIdentifier: TaskTableViewCell.reuseIdentifier)
+                                             for: indexPath) as? TaskTableViewCell ??
+        TaskTableViewCell(style: .default, reuseIdentifier: TaskTableViewCell.reuseIdentifier)
 
-        cell.viewModel = TaskCellViewModel(task: viewModel.tasks[indexPath.row])
+        switch indexPath.section {
+        case 0:
+            cell.viewModel = TaskCellViewModel(task: viewModel.tasks.filter({!$0.done})[indexPath.row])
+        default:
+            cell.viewModel = TaskCellViewModel(task: viewModel.tasks.filter({!$0.done})[indexPath.row])
+        }
+
         return cell
     }
 }

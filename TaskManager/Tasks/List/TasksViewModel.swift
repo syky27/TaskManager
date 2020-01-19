@@ -23,7 +23,7 @@ class TasksViewModel {
         taskService.getAll { result in
             switch result {
             case .success(let tasks):
-                self.tasks = tasks
+                self.tasks = tasks.sorted(by: { $0.deadline.compare($1.deadline) == .orderedAscending })
                 self.tasksChanged?()
             case .failure(let error):
                 // TODO: Handle
