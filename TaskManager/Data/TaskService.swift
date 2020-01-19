@@ -9,15 +9,6 @@
 import CoreData
 import UIKit
 
-struct Task {
-    var taskID: NSManagedObjectID?
-    var name: String
-    var deadline: Date
-    var done: Bool
-    var notify: Bool
-    var category: Category
-}
-
 protocol TaskServiceProtocol {
     func getAll(completion: @escaping (Result<[Task], Error>) -> Void)
     func updateExisting(task: Task, with newTask: Task) throws

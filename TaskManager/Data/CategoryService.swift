@@ -9,12 +9,6 @@
 import CoreData
 import UIKit
 
-struct Category {
-    var categoryID: NSManagedObjectID?
-    var name: String
-    var color: String
-}
-
 protocol CategoryServiceProtocol {
     func getAll(completion: @escaping (Result<[Category], Error>) -> Void)
     func updateExisting(category: Category, with newCategory: Category) throws

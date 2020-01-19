@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:/Users/syky/spendee/TaskManager/TaskManager/Database/DBTask+CoreDataProperties.swift">
+   </FileRef>
+   <FileRef
       location = "group:TaskManager.xcodeproj">
    </FileRef>
    <FileRef
