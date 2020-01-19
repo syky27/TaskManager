@@ -7,25 +7,31 @@
 //
 
 import UIKit
+import SnapKit
 
 class TaskTableViewCell: UITableViewCell {
 
     private var nameLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
     private var deadlineLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
     private var categoryLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .right
         return label
+    }()
+
+    private var categoryColorView: UIView = {
+        let colorView = UIView()
+        colorView.layer.cornerRadius = colorView.bounds.height/2
+        colorView.layer.borderColor = UIColor.black.cgColor
+        return colorView
     }()
 
     var viewModel: TaskCellViewModel? {
@@ -44,21 +50,34 @@ class TaskTableViewCell: UITableViewCell {
     }
 
     private func layout() {
-        let margin: CGFloat = 4.0
+        let spacing: CGFloat = 8.0
 
         contentView.addSubview(nameLabel)
         contentView.addSubview(deadlineLabel)
         contentView.addSubview(categoryLabel)
+        contentView.addSubview(categoryColorView)
 
-        [
-            nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: margin),
-            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: margin),
-            deadlineLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: margin),
-            deadlineLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
-            deadlineLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -margin),
-            categoryLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: margin),
-            categoryLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
-        ].forEach { $0.isActive = true}
+        nameLabel.snp.makeConstraints { make in
+            make.top.leading.equalTo(contentView).inset(spacing)
+        }
+
+        deadlineLabel.snp.makeConstraints { make in
+            make.top.equalTo(nameLabel.snp.bottom).offset(spacing)
+            make.bottom.leading.equalTo(contentView).inset(spacing)
+            make.width.equalTo(contentView.bounds.width / 2)
+        }
+
+        categoryLabel.snp.makeConstraints { make in
+            make.top.equalTo(nameLabel.snp.bottom).offset(spacing)
+            make.bottom.trailing.equalTo(contentView).inset(spacing)
+        }
+
+        categoryColorView.snp.makeConstraints { make in
+            make.trailing.equalTo(categoryLabel.snp.leading).inset(-spacing)
+            make.top.equalTo(categoryLabel.snp.top)
+            make.height.equalTo(categoryLabel.snp.height)
+            make.width.equalTo(categoryLabel.snp.height)
+        }
 
     }
 
@@ -67,7 +86,9 @@ class TaskTableViewCell: UITableViewCell {
         nameLabel.text = viewModel.name
         deadlineLabel.text = viewModel.deadline.description
         categoryLabel.text = viewModel.categoryName
-        categoryLabel.backgroundColor = UIColor(hex: viewModel.categoryColor)
+        categoryColorView.backgroundColor = UIColor(hex: viewModel.categoryColor)
+        // TODO: This should not be here
+        categoryColorView.layer.cornerRadius = categoryColorView.bounds.height/2
 
     }
 }
