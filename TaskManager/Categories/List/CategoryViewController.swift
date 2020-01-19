@@ -19,6 +19,8 @@ class CategoryViewController: UIViewController {
         tableView.register(CategoryTableViewCell.self, forCellReuseIdentifier: CategoryTableViewCell.reuseIdentifier)
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 44
         return tableView
     }()
 
@@ -69,6 +71,10 @@ extension CategoryViewController: UITableViewDelegate {
         tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
 
         return indexPath
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        UITableView.automaticDimension
     }
 
 }

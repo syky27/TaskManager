@@ -7,10 +7,16 @@
 //
 
 import UIKit
+import SnapKit
 
 class CategoryTableViewCell: UITableViewCell {
 
-    private let label = UILabel()
+    private let label: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 16)
+        return label
+    }()
+    private let colorView = UIView()
 
     var viewModel: CategoryCellViewModel? {
         didSet {
@@ -28,16 +34,31 @@ class CategoryTableViewCell: UITableViewCell {
     }
 
     private func layout() {
-        label.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(label)
+        let spacing: CGFloat = 12
 
-        label.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        label.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        contentView.addSubview(label)
+        contentView.addSubview(colorView)
+
+        label.snp.makeConstraints { make in
+            make.top.bottom.leading.equalTo(contentView).inset(spacing)
+        }
+
+        colorView.snp.makeConstraints { make in
+            make.trailing.equalTo(contentView).inset(spacing)
+            make.height.width.equalTo(label.snp.height)
+            make.top.equalTo(label.snp.top)
+        }
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        contentView.layoutSubviews()
+        colorView.layer.cornerRadius = colorView.bounds.height/2
     }
 
     private func setup() {
         guard let viewModel = viewModel else { return }
         label.text = viewModel.name
-        contentView.backgroundColor = UIColor(hex: viewModel.color)
+        colorView.backgroundColor = UIColor(hex: viewModel.color)
     }
 }
