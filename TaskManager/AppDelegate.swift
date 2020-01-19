@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func createDefaultCategories() {
-        let categoryService = CategoryService()
+        let categoryService = CategoryCoreDataService()
 
         categoryService.getAll(completion: { result in
             switch result {

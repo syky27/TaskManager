@@ -15,7 +15,7 @@ class CategoryViewModel {
     private let categoryService: CategoryServiceProtocol
     var categoriesChanged: (() -> Void)?
 
-    init(categoryService: CategoryServiceProtocol = CategoryService()) {
+    init(categoryService: CategoryServiceProtocol = CategoryCoreDataService()) {
         self.categoryService = categoryService
     }
 

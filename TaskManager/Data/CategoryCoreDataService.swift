@@ -15,7 +15,7 @@ protocol CategoryServiceProtocol {
     func createNew(category: Category) throws
 }
 
-class CategoryService: CategoryServiceProtocol {
+class CategoryCoreDataService: CategoryServiceProtocol {
 
     func updateExisting(category: Category, with newCategory: Category) throws {
         guard let categoryID = category.categoryID else {

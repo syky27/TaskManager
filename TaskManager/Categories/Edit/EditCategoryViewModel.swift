@@ -28,16 +28,16 @@ class EditCategoryViewModel {
     var cancelables: [AnyCancellable] = []
 
     private let category: Category?
-
-    private let service = CategoryService()
+    private let service: CategoryServiceProtocol
 
     let state = CurrentValueSubject<State, Never>(.initial)
     let action = PassthroughSubject<Action, Never>()
 
     var didFinishEditing: (() -> Void)?
 
-    init(category: Category? = nil) {
+    init(category: Category? = nil, dataService: CategoryServiceProtocol = CategoryCoreDataService()) {
         self.category = category
+        self.service = dataService
 
         cancelables = [
             state.sink(receiveValue: { [weak self] state in

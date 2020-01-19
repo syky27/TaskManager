@@ -13,7 +13,7 @@
 		351CD08B23D4D4DC000F4EB5 /* Date+TaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351CD08A23D4D4DC000F4EB5 /* Date+TaskManager.swift */; };
 		35223E1723CDE71900808F50 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35223E1623CDE71900808F50 /* CategoryViewController.swift */; };
 		35223E1923CDE75000808F50 /* CategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35223E1823CDE75000808F50 /* CategoryViewModel.swift */; };
-		35223E2023CE22F500808F50 /* CategoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35223E1F23CE22F500808F50 /* CategoryService.swift */; };
+		35223E2023CE22F500808F50 /* CategoryCoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35223E1F23CE22F500808F50 /* CategoryCoreDataService.swift */; };
 		3523960523D0C0CE009DED42 /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3523960423D0C0CE009DED42 /* CategoryTableViewCell.swift */; };
 		3523960723D0C0EA009DED42 /* CategoryCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3523960623D0C0EA009DED42 /* CategoryCellViewModel.swift */; };
 		3523960923D0C897009DED42 /* EditCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3523960823D0C897009DED42 /* EditCategoryViewController.swift */; };
@@ -53,7 +53,7 @@
 		351CD08A23D4D4DC000F4EB5 /* Date+TaskManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+TaskManager.swift"; sourceTree = "<group>"; };
 		35223E1623CDE71900808F50 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		35223E1823CDE75000808F50 /* CategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewModel.swift; sourceTree = "<group>"; };
-		35223E1F23CE22F500808F50 /* CategoryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryService.swift; sourceTree = "<group>"; };
+		35223E1F23CE22F500808F50 /* CategoryCoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCoreDataService.swift; sourceTree = "<group>"; };
 		3523960423D0C0CE009DED42 /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
 		3523960623D0C0EA009DED42 /* CategoryCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCellViewModel.swift; sourceTree = "<group>"; };
 		3523960823D0C897009DED42 /* EditCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCategoryViewController.swift; sourceTree = "<group>"; };
@@ -120,7 +120,7 @@
 		35223E1D23CE22C300808F50 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				35223E1F23CE22F500808F50 /* CategoryService.swift */,
+				35223E1F23CE22F500808F50 /* CategoryCoreDataService.swift */,
 				3523963023D3603E009DED42 /* TaskService.swift */,
 				351CD08623D4C935000F4EB5 /* SettingsService.swift */,
 			);
@@ -243,11 +243,11 @@
 		356E773423AFCCEE00222A29 /* TaskManager */ = {
 			isa = PBXGroup;
 			children = (
-				3597477723D513DF00966B04 /* UnableToRename */,
-				351CD08323D4C0F9000F4EB5 /* Settings */,
+				3597477723D513DF00966B04 /* Model */,
 				3523962D23D35D2D009DED42 /* Tasks */,
-				3523961523D34820009DED42 /* Helpers */,
 				35223E2123CE3C1500808F50 /* Categories */,
+				351CD08323D4C0F9000F4EB5 /* Settings */,
+				3523961523D34820009DED42 /* Helpers */,
 				35223E1D23CE22C300808F50 /* Data */,
 				356E776023AFE42900222A29 /* Database */,
 				356E773523AFCCEE00222A29 /* AppDelegate.swift */,
@@ -273,13 +273,13 @@
 			path = Database;
 			sourceTree = "<group>";
 		};
-		3597477723D513DF00966B04 /* UnableToRename */ = {
+		3597477723D513DF00966B04 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				3597477823D513FF00966B04 /* Category.swift */,
 				3597477A23D5140600966B04 /* Task.swift */,
 			);
-			path = UnableToRename;
+			path = Model;
 			sourceTree = "<group>";
 		};
 		E91579819146F1F9494EC1F4 /* Frameworks */ = {
@@ -436,7 +436,7 @@
 				351CD08B23D4D4DC000F4EB5 /* Date+TaskManager.swift in Sources */,
 				356E775D23AFDD8800222A29 /* DBCategory+CoreDataClass.swift in Sources */,
 				356E773623AFCCEE00222A29 /* AppDelegate.swift in Sources */,
-				35223E2023CE22F500808F50 /* CategoryService.swift in Sources */,
+				35223E2023CE22F500808F50 /* CategoryCoreDataService.swift in Sources */,
 				3523960723D0C0EA009DED42 /* CategoryCellViewModel.swift in Sources */,
 				3523963823D364F6009DED42 /* TaskCellViewModel.swift in Sources */,
 				351CD08523D4C121000F4EB5 /* SettingsTableViewController.swift in Sources */,
