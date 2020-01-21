@@ -11,24 +11,19 @@ import CoreData
 import Combine
 
 class CategoryViewModel {
-    var categories = [Category]()
-    private let categoryService: CategoryServiceProtocol
-    var categoriesChanged: (() -> Void)?
 
-    init(categoryService: CategoryServiceProtocol = CategoryCoreDataService()) {
-        self.categoryService = categoryService
+    var categories: [Category] {
+        dataProvider.categories.value
     }
 
-    func fetchCategories() {
-        categoryService.getAll { result in
-            switch result {
-            case .success(let categories):
-                self.categories = categories
-                self.categoriesChanged?()
-            case .failure(let error):
-                // TODO: Handle in production
-                print(error)
-            }
-        }
+    var categoriesPublisher: CurrentValueSubject<[Category], Error> {
+        dataProvider.categories
+    }
+
+    private let dataProvider: CategoriesDataProviderProtocol
+    var categoriesChanged: (() -> Void)?
+
+    init(dataProvider: CategoriesDataProviderProtocol = CDCategoriesDataProvider()) {
+        self.dataProvider = dataProvider
     }
 }

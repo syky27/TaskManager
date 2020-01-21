@@ -28,14 +28,14 @@ class EditCategoryViewModel {
     var cancelables: [AnyCancellable] = []
 
     private let category: Category?
-    private let service: CategoryServiceProtocol
+    private let service: CategoriesDataProviderProtocol
 
     let state = CurrentValueSubject<State, Never>(.initial)
     let action = PassthroughSubject<Action, Never>()
 
     var didFinishEditing: (() -> Void)?
 
-    init(category: Category? = nil, dataService: CategoryServiceProtocol = CategoryCoreDataService()) {
+    init(category: Category? = nil, dataService: CategoriesDataProviderProtocol = CDCategoriesDataProvider()) {
         self.category = category
         self.service = dataService
 

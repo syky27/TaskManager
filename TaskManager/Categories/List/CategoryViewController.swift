@@ -7,12 +7,15 @@
 //
 
 import UIKit
+import Combine
 
 class CategoryViewController: UIViewController {
 
     var viewModel = CategoryViewModel()
 
     var didSelectCategory: ((_ category: Category) -> Void)?
+
+    var subscriptions = [AnyCancellable]()
 
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -24,15 +27,9 @@ class CategoryViewController: UIViewController {
         return tableView
     }()
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        viewModel.fetchCategories()
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         view = tableView
-        viewModel.fetchCategories()
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(add))
         bind()
     }
@@ -42,11 +39,11 @@ class CategoryViewController: UIViewController {
     }
 
     func bind() {
-        viewModel.categoriesChanged = { [weak self] in
-            DispatchQueue.main.async {
-                self?.tableView.reloadData()
-            }
-        }
+        subscriptions = [
+            viewModel.categoriesPublisher.sink(receiveCompletion: {_ in }, receiveValue: { _ in
+                self.tableView.reloadData(with: .automatic)
+            })
+        ]
     }
 }
 

@@ -1,21 +1,43 @@
 //
-//  CategoryService.swift
+//  CDCategoriesDataProvider.swift
 //  TaskManager
 //
-//  Created by Tomas Sykora, jr. on 14/01/2020.
+//  Created by Tomas Sykora, jr. on 21/01/2020.
 //  Copyright © 2020 AJTY. All rights reserved.
 //
 
+import Combine
+import Foundation
 import CoreData
-import UIKit
 
-protocol CategoryServiceProtocol {
-    func getAll(completion: @escaping (Result<[Category], Error>) -> Void)
-    func updateExisting(category: Category, with newCategory: Category) throws
-    func createNew(category: Category) throws
-}
+class CDCategoriesDataProvider: CategoriesDataProviderProtocol {
 
-class CategoryCoreDataService: CategoryServiceProtocol {
+    var categories = CurrentValueSubject<[Category], Error>([Category]())
+
+    private let fetch: FetchedResultsPublisher<DBCategory> = {
+        let request: NSFetchRequest<DBCategory> = DBCategory.fetchRequest()
+        let sort = NSSortDescriptor(key: #keyPath(DBCategory.name),
+                                    ascending: true,
+                                    selector: #selector(NSString.caseInsensitiveCompare(_:)))
+        request.sortDescriptors = [sort]
+
+        return FetchedResultsPublisher(request: request, context: CoreDataManager.shared.context)
+    }()
+
+    var cancelables: [AnyCancellable] = []
+
+    init() {
+
+        cancelables = [
+            fetch.sink(receiveCompletion: { error in
+                print(error)
+                //            tasks.err
+            }, receiveValue: { tasks in
+                print("Change: FetchedResultsPublisher")
+                self.categories.send(tasks.map { $0.category() })
+            })
+        ]
+    }
 
     func updateExisting(category: Category, with newCategory: Category) throws {
         guard let categoryID = category.categoryID else {
