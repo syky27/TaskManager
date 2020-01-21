@@ -289,7 +289,7 @@
 				35223E2123CE3C1500808F50 /* Categories */,
 				351CD08323D4C0F9000F4EB5 /* Settings */,
 				3523961523D34820009DED42 /* Helpers */,
-				356E776023AFE42900222A29 /* Database */,
+				356E776023AFE42900222A29 /* Core Data */,
 				356E773523AFCCEE00222A29 /* AppDelegate.swift */,
 				356E773723AFCCEE00222A29 /* SceneDelegate.swift */,
 				356E773923AFCCEE00222A29 /* ViewController.swift */,
@@ -300,7 +300,7 @@
 			path = TaskManager;
 			sourceTree = "<group>";
 		};
-		356E776023AFE42900222A29 /* Database */ = {
+		356E776023AFE42900222A29 /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
 				350D9F2D23D77B9D003E98B7 /* DBTask+CoreDataClass.swift */,
@@ -311,7 +311,7 @@
 				356E774C23AFD8AF00222A29 /* CoreDataManager.swift */,
 				350D9F1923D71FFC003E98B7 /* FetchedResultsPublisher.swift */,
 			);
-			path = Database;
+			path = "Core Data";
 			sourceTree = "<group>";
 		};
 		3597477723D513DF00966B04 /* Model */ = {
