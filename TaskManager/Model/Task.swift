@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 struct Task {
-    var taskID: NSManagedObjectID?
+    var taskID: String?
     var name: String
     var deadline: Date
     var done: Bool

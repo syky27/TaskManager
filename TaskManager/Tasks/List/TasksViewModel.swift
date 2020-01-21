@@ -1,46 +1,51 @@
 //
-//  TasksViewModel.swift
+//  ReactiveTasksViewModel.swift
 //  TaskManager
 //
-//  Created by Tomas Sykora, jr. on 18/01/2020.
+//  Created by Tomas Sykora, jr. on 21/01/2020.
 //  Copyright © 2020 AJTY. All rights reserved.
 //
 
 import Foundation
-import CoreData
 import Combine
 
 class TasksViewModel {
-    var tasks = [Task]()
-    private let taskService: TaskServiceProtocol
-    var tasksChanged: (() -> Void)?
+
+    var tasksPublisher: CurrentValueSubject<[Task], Error> {
+        dataProvider.tasks
+    }
+
+    var tasks: [Task] {
+        tasksPublisher.value
+    }
+
+    private let dataProvider: TasksDataProviderProtocol
 
     var cancelables: [AnyCancellable] = []
 
-    init(taskService: TaskServiceProtocol = TaskCoreDataService()) {
-        self.taskService = taskService
-
+    init(data: TasksDataProviderProtocol = CDTasksDataProvider()) {
+        dataProvider = data
         cancelables = [
             SettingsService.didChange.sink(receiveValue: { [weak self] settings in
                 self?.sortTasksBy(settings: settings)
                 if settings.notificationsEnabled {
-                    taskService.scheduleAllNotifications()
+                    self?.dataProvider.scheduleAllNotifications()
                 } else {
-                    taskService.removeAllPendingNotifications()
+                    self?.dataProvider.removeAllPendingNotifications()
                 }
             })
         ]
     }
 
     private func sortTasksBy(settings: Settings) {
-        if settings.alphabeticalSort {
-            self.tasks = tasks.sorted(by: { $0.name.compare($1.name) == .orderedAscending })
-            self.tasksChanged?()
-            return
-        }
-
-        self.tasks = tasks.sorted(by: { $0.deadline.compare($1.deadline) == .orderedAscending })
-        self.tasksChanged?()
+        // TODO: sorting
+//        if settings.alphabeticalSort {
+//            self.tasks = tasks.sorted(by: { $0.name.compare($1.name) == .orderedAscending })
+//            self.tasksChanged?()
+//            return
+//        }
+//
+//        self.tasks = tasks.sorted(by: { $0.deadline.compare($1.deadline) == .orderedAscending })
     }
 
     func numberOfItemsFor(section: Int) -> Int {
@@ -65,31 +70,13 @@ class TasksViewModel {
         }
     }
 
-    func fetch() {
-        taskService.getAll { [weak self] result in
-            switch result {
-            case .success(let tasks):
-                self?.tasks = tasks
-                self?.sortTasksBy(settings: SettingsService.settings())
-            case .failure(let error):
-                // TODO: Notify User
-                print(error)
-            }
-        }
-    }
-
     func delete(task: Task) {
-
-        // TODO: handle error
         // swiftlint:disable:next force_try
-        try! taskService.delete(task: task)
-        // TODO: Combine...?
-        fetch()
+        try! dataProvider.delete(task: task)
     }
 
     func resolve(task: Task) {
         // swiftlint:disable:next force_try
-        try! taskService.resolve(task: task)
-        fetch()
+        try! dataProvider.resolve(task: task)
     }
 }

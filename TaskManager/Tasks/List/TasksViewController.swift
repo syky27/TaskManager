@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Combine
 
 class TasksViewController: UIViewController {
 
@@ -27,16 +28,15 @@ class TasksViewController: UIViewController {
         return tableView
     }()
 
+    var subscriptions = [AnyCancellable]()
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        // This would not be neccesaary when the data source would be connected reactivly
-        viewModel.fetch()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view = tableView
-        viewModel.fetch()
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addAction))
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .plain, target: self, action: #selector(settingsAction))
         bind()
@@ -55,11 +55,11 @@ class TasksViewController: UIViewController {
     }
 
     func bind() {
-        viewModel.tasksChanged = { [weak self] in
-            DispatchQueue.main.async {
-                self?.tableView.reloadData(with: UITableView.RowAnimation.automatic)
-            }
-        }
+        subscriptions = [
+            viewModel.tasksPublisher.sink(receiveCompletion: {_ in }, receiveValue: { _ in
+                self.tableView.reloadData(with: .automatic)
+            })
+        ]
     }
 }
 

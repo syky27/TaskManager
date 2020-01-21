@@ -2,13 +2,12 @@
 //  DBTask+CoreDataProperties.swift
 //  
 //
-//  Created by Tomas Sykora, jr. on 19/01/2020.
+//  Created by Tomas Sykora, jr. on 21/01/2020.
 //
 //
 
 import Foundation
 import CoreData
-
 
 extension DBTask {
 
@@ -20,6 +19,7 @@ extension DBTask {
     @NSManaged public var done: Bool
     @NSManaged public var name: String?
     @NSManaged public var notify: Bool
+    @NSManaged public var taskID: String?
     @NSManaged public var category: DBCategory?
 
 }

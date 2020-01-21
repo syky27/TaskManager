@@ -1,11 +1,3 @@
-//
-//  DBTask+CoreDataClass.swift
-//  TaskManager
-//
-//  Created by Tomas Sykora, jr. on 22/12/2019.
-//  Copyright © 2019 AJTY. All rights reserved.
-//
-//
 
 import Foundation
 import CoreData
@@ -14,7 +6,7 @@ import CoreData
 public class DBTask: NSManagedObject {
 
     func task() -> Task {
-        return Task(taskID: objectID,
+        return Task(taskID: taskID,
                     name: name ?? "",
                     deadline: deadline ?? Date(),
                     done: done,
@@ -25,6 +17,7 @@ public class DBTask: NSManagedObject {
     }
 
     func replaceWith(task: Task) throws {
+        taskID = task.taskID
         name = task.name
         deadline = task.deadline
         done = task.done

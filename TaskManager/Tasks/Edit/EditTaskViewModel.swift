@@ -37,14 +37,14 @@ class EditTaskViewModel {
 
     private let task: Task?
 
-    private let service: TaskServiceProtocol
+    private let service: TasksDataProviderProtocol
 
     let state = CurrentValueSubject<State, Never>(.initial)
     let action = PassthroughSubject<Action, Never>()
 
     var didFinishEditing: (() -> Void)?
 
-    init(task: Task? = nil, service: TaskServiceProtocol = TaskCoreDataService()) {
+    init(task: Task? = nil, service: TasksDataProviderProtocol = CDTasksDataProvider()) {
         self.service = service
         self.task = task
 
@@ -75,7 +75,12 @@ class EditTaskViewModel {
             throw EditTaskError.invalidForm(field: "category")
         }
 
-        return Task(taskID: task?.taskID, name: name, deadline: deadline, done: isDone, notify: notify ?? false, category: category)
+        return Task(taskID: (task != nil) ? task!.taskID : UUID().uuidString,
+                    name: name,
+                    deadline: deadline,
+                    done: isDone,
+                    notify: notify ?? false,
+                    category: category)
     }
 
     func processState(_ state: State) {
