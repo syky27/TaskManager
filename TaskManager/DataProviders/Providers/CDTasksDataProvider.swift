@@ -33,15 +33,13 @@ class CDTasksDataProvider: TasksDataProviderProtocol {
     }
 
     func subscribe() {
-        cancelables = [
-            fetch.sink(receiveCompletion: { error in
-                print(error)
-                //            tasks.err
-            }, receiveValue: { tasks in
-                print("Change: FetchedResultsPublisher")
-                self.tasks.send(tasks.map { $0.task() })
-            })
-        ]
+        fetch.sink(receiveCompletion: { error in
+            print(error)
+            // TODO: Fixup
+        }, receiveValue: { tasks in
+            print("Change: FetchedResultsPublisher")
+            self.tasks.send(tasks.map { $0.task() })
+        }).store(in: &cancelables)
     }
 
     func changeSort(descriptor: NSSortDescriptor) {

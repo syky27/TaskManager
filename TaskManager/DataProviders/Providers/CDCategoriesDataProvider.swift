@@ -27,16 +27,13 @@ class CDCategoriesDataProvider: CategoriesDataProviderProtocol {
     var cancelables: [AnyCancellable] = []
 
     init() {
-
-        cancelables = [
-            fetch.sink(receiveCompletion: { error in
-                print(error)
-                //            tasks.err
-            }, receiveValue: { tasks in
-                print("Change: FetchedResultsPublisher")
-                self.categories.send(tasks.map { $0.category() })
-            })
-        ]
+        fetch.sink(receiveCompletion: { error in
+            print(error)
+            // TODO: Fixup
+        }, receiveValue: { tasks in
+            print("Change: FetchedResultsPublisher")
+            self.categories.send(tasks.map { $0.category() })
+        }).store(in: &cancelables)
     }
 
     func updateExisting(category: Category, with newCategory: Category) throws {

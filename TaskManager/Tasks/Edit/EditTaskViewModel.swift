@@ -48,14 +48,12 @@ class EditTaskViewModel {
         self.service = service
         self.task = task
 
-        cancelables = [
-            state.sink(receiveValue: { [weak self] state in
-                self?.processState(state)
-            }),
-            action.sink(receiveValue: { [weak self] action in
-                self?.processAction(action)
-            })
-        ]
+        state.sink(receiveValue: { [weak self] state in
+            self?.processState(state)
+        }).store(in: &cancelables)
+        action.sink(receiveValue: { [weak self] action in
+            self?.processAction(action)
+        }).store(in: &cancelables)
     }
 
     func validate() throws -> Task {

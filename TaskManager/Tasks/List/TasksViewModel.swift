@@ -25,16 +25,14 @@ class TasksViewModel {
 
     init(data: TasksDataProviderProtocol = CDTasksDataProvider()) {
         dataProvider = data
-        cancelables = [
-            SettingsService.settings.sink(receiveValue: { [weak self] settings in
-                self?.sortTasksBy(settings: settings)
-                if settings.notificationsEnabled {
-                    self?.dataProvider.scheduleAllNotifications()
-                } else {
-                    self?.dataProvider.removeAllPendingNotifications()
-                }
-            })
-        ]
+        SettingsService.settings.sink(receiveValue: { [weak self] settings in
+            self?.sortTasksBy(settings: settings)
+            if settings.notificationsEnabled {
+                self?.dataProvider.scheduleAllNotifications()
+            } else {
+                self?.dataProvider.removeAllPendingNotifications()
+            }
+        }).store(in: &cancelables)
     }
 
     private func sortTasksBy(settings: Settings) {
