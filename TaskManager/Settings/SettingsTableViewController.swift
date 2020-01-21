@@ -56,12 +56,12 @@ class SettingsTableViewController: UITableViewController {
         case 1:
             let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
             cell.textLabel?.text = "Sorting"
-            cell.detailTextLabel?.text = SettingsService.settings().alphabeticalSort ? "Alphabetical" : "By Date"
+            cell.detailTextLabel?.text = SettingsService.get().alphabeticalSort ? "Alphabetical" : "By Date"
             return cell
         default:
             let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
             cell.textLabel?.text = "Notifications"
-            cell.detailTextLabel?.text = SettingsService.settings().notificationsEnabled ? "Enabled" : "Disabled"
+            cell.detailTextLabel?.text = SettingsService.get().notificationsEnabled ? "Enabled" : "Disabled"
             return cell
         }
     }

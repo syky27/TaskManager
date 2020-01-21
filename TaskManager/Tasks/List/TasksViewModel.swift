@@ -26,7 +26,7 @@ class TasksViewModel {
     init(data: TasksDataProviderProtocol = CDTasksDataProvider()) {
         dataProvider = data
         cancelables = [
-            SettingsService.didChange.sink(receiveValue: { [weak self] settings in
+            SettingsService.settings.sink(receiveValue: { [weak self] settings in
                 self?.sortTasksBy(settings: settings)
                 if settings.notificationsEnabled {
                     self?.dataProvider.scheduleAllNotifications()

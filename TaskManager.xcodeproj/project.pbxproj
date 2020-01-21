@@ -90,6 +90,7 @@
 		356E775923AFDD8800222A29 /* DBCategory+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBCategory+CoreDataClass.swift"; sourceTree = "<group>"; };
 		3597477823D513FF00966B04 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		3597477A23D5140600966B04 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
+		35FDB54223D7A1540046154B /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		899F65A3CE138FD43856EDE4 /* Pods_TaskManager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TaskManager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA7EC99BBC4F4486A2A52285 /* Pods-TaskManager.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TaskManager.release.xcconfig"; path = "Target Support Files/Pods-TaskManager/Pods-TaskManager.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -257,6 +258,7 @@
 		356E772923AFCCEE00222A29 = {
 			isa = PBXGroup;
 			children = (
+				35FDB54223D7A1540046154B /* README.md */,
 				356E773423AFCCEE00222A29 /* TaskManager */,
 				356E773323AFCCEE00222A29 /* Products */,
 				0097F0EB1F14CC264021B20D /* Pods */,

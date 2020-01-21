@@ -21,9 +21,9 @@ struct Settings {
 
 class SettingsService {
 
-    static public let didChange = PassthroughSubject<Settings, Never>()
+    static public let settings = PassthroughSubject<Settings, Never>()
 
-    class func settings() -> Settings {
+    class func get() -> Settings {
         return Settings(alphabeticalSort: UserDefaults.standard.bool(forKey: SettingsKeys.alphabeticalOrder.rawValue),
                         notificationsEnabled: UserDefaults.standard.bool(forKey: SettingsKeys.notifications.rawValue))
     }
@@ -32,6 +32,6 @@ class SettingsService {
         let value = UserDefaults.standard.bool(forKey: key.rawValue)
         UserDefaults.standard.set(!value, forKey: key.rawValue)
 
-        didChange.send(settings())
+        settings.send(get())
     }
 }
