@@ -30,28 +30,28 @@ class TasksViewController: UIViewController {
 
     var subscriptions = [AnyCancellable]()
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         view = tableView
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addAction))
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .plain, target: self, action: #selector(settingsAction))
+        configureBarButtons()
         bind()
     }
 
+    func configureBarButtons() {
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addAction))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .plain, target: self, action: #selector(settingsAction))
+    }
+
     @objc func addAction() {
-        let editViewController = UINavigationController(rootViewController: EditTaskViewController(viewModel: EditTaskViewModel()))
-        editViewController.modalPresentationStyle = .fullScreen
-        navigationController?.present(editViewController, animated: true, completion: nil)
+        navigationController?.present(UINavigationController(rootViewController: EditTaskViewController(viewModel: EditTaskViewModel())),
+                                      animated: true,
+                                      completion: nil)
     }
 
     @objc func settingsAction() {
-        let controller = UINavigationController(rootViewController: SettingsTableViewController())
-        controller.modalPresentationStyle = .fullScreen
-        navigationController?.present(controller, animated: true, completion: nil)
+        navigationController?.present(UINavigationController(rootViewController: SettingsTableViewController()),
+                                      animated: true,
+                                      completion: nil)
     }
 
     func bind() {
@@ -69,7 +69,6 @@ extension TasksViewController: UITableViewDelegate {
             EditTaskViewController(viewModel:
                 EditTaskViewModel(task: viewModel.getTaskFor(indexPath: indexPath))))
 
-        controller.modalPresentationStyle = .fullScreen
         navigationController?.present(controller, animated: true, completion: nil)
     }
 
@@ -114,6 +113,7 @@ extension TasksViewController: UITableViewDataSource {
             viewModel.delete(task: viewModel.getTaskFor(indexPath: indexPath))
         }
     }
+    
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let resolveAction = UIContextualAction(style: .normal, title: "Close") { [weak self] (_, _, _) in
             guard let self = self else { return }
@@ -124,7 +124,5 @@ extension TasksViewController: UITableViewDataSource {
             resolveAction.backgroundColor = UIColor(hex: "#00cc66")
 
             return UISwipeActionsConfiguration(actions: [resolveAction])
-
     }
-
 }
