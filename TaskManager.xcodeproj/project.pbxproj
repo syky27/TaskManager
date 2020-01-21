@@ -115,13 +115,6 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		350D9F1B23D72085003E98B7 /* Reactive */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Reactive;
-			sourceTree = "<group>";
-		};
 		350D9F3023D785FE003E98B7 /* DataProviders */ = {
 			isa = PBXGroup;
 			children = (
@@ -283,7 +276,6 @@
 			isa = PBXGroup;
 			children = (
 				350D9F3023D785FE003E98B7 /* DataProviders */,
-				350D9F1B23D72085003E98B7 /* Reactive */,
 				3597477723D513DF00966B04 /* Model */,
 				3523962D23D35D2D009DED42 /* Tasks */,
 				35223E2123CE3C1500808F50 /* Categories */,
