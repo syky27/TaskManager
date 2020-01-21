@@ -38,14 +38,15 @@ class TasksViewModel {
     }
 
     private func sortTasksBy(settings: Settings) {
-        // TODO: sorting
-//        if settings.alphabeticalSort {
-//            self.tasks = tasks.sorted(by: { $0.name.compare($1.name) == .orderedAscending })
-//            self.tasksChanged?()
-//            return
-//        }
-//
-//        self.tasks = tasks.sorted(by: { $0.deadline.compare($1.deadline) == .orderedAscending })
+        if settings.alphabeticalSort {
+            dataProvider.changeSort(descriptor: NSSortDescriptor(key: #keyPath(DBTask.name),
+                                                                 ascending: false,
+                                                                 selector: #selector(NSString.caseInsensitiveCompare(_:))))
+        }
+
+        dataProvider.changeSort(descriptor: NSSortDescriptor(key: #keyPath(DBTask.deadline),
+                                                             ascending: false,
+                                                             selector: #selector(NSString.caseInsensitiveCompare(_:))))
     }
 
     func numberOfItemsFor(section: Int) -> Int {

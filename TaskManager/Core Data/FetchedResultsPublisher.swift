@@ -31,7 +31,6 @@ public final class FetchedResultsPublisher<ResultType>: Publisher where ResultTy
             context: context
         ))
     }
-
 }
 
 final class FetchedResultsSubscription <SubscriberType, ResultType>: NSObject, Subscription, NSFetchedResultsControllerDelegate where
@@ -92,6 +91,10 @@ final class FetchedResultsSubscription <SubscriberType, ResultType>: NSObject, S
         if let fetchedObjects = self.controller?.fetchedObjects {
             _ = subscriber.receive(fetchedObjects)
         }
+    }
+
+    deinit {
+        print("Deinit - \(String(describing: Self.self))")
     }
 
 }

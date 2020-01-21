@@ -7,6 +7,7 @@
 //
 
 import Combine
+import Foundation
 
 protocol TasksDataProviderProtocol {
 
@@ -18,4 +19,5 @@ protocol TasksDataProviderProtocol {
     func resolve(task: Task) throws
     func removeAllPendingNotifications()
     func scheduleAllNotifications()
+    func changeSort(descriptor: NSSortDescriptor)
 }

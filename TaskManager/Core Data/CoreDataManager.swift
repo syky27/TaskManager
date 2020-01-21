@@ -23,7 +23,6 @@ class CoreDataManager {
         let container = NSPersistentContainer(name: "TaskManager")
         container.loadPersistentStores(completionHandler: { (_, error) in
             if let error = error as NSError? {
-                // TODO: Handle for production
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })

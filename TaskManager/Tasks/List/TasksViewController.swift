@@ -113,7 +113,7 @@ extension TasksViewController: UITableViewDataSource {
             viewModel.delete(task: viewModel.getTaskFor(indexPath: indexPath))
         }
     }
-    
+
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let resolveAction = UIContextualAction(style: .normal, title: "Close") { [weak self] (_, _, _) in
             guard let self = self else { return }

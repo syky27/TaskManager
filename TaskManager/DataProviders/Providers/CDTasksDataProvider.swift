@@ -16,7 +16,7 @@ class CDTasksDataProvider: TasksDataProviderProtocol {
 
     var tasks = CurrentValueSubject<[Task], Error>([Task]())
 
-    private let fetch: FetchedResultsPublisher<DBTask> = {
+    private var fetch: FetchedResultsPublisher<DBTask> = {
         let request: NSFetchRequest<DBTask> = DBTask.fetchRequest()
         let sort = NSSortDescriptor(key: #keyPath(DBCategory.name),
                                     ascending: true,
@@ -29,7 +29,10 @@ class CDTasksDataProvider: TasksDataProviderProtocol {
     var cancelables: [AnyCancellable] = []
 
     init() {
+        subscribe()
+    }
 
+    func subscribe() {
         cancelables = [
             fetch.sink(receiveCompletion: { error in
                 print(error)
@@ -39,6 +42,16 @@ class CDTasksDataProvider: TasksDataProviderProtocol {
                 self.tasks.send(tasks.map { $0.task() })
             })
         ]
+    }
+
+    func changeSort(descriptor: NSSortDescriptor) {
+        fetch.request.sortDescriptors = [descriptor]
+        let request: NSFetchRequest<DBTask> = DBTask.fetchRequest()
+
+        request.sortDescriptors = [descriptor]
+
+        self.fetch = FetchedResultsPublisher(request: request, context: CoreDataManager.shared.context)
+        subscribe()
     }
 
     func removeAllPendingNotifications() {
