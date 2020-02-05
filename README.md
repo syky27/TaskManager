@@ -6,7 +6,7 @@ This is just my test project now.
 
 It uses MVVM with Core Data where updates are driven by Combine... 🔥💥🔥💥.
 
-# Who The Fuck OpenSources TODO apps?
+# Who The Hell OpenSources TODO apps?
 
 This initially started as a hiring asignment for one company, the was as follows:
 
